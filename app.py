@@ -11,10 +11,16 @@ def hello_world():
 @app.route('/<make>')
 def visit_make(make):
     recognised_makes = ['ford', 'benz', 'audi', 'volkswagen']
+    make_data = {'ford': 1,
+                 'benz': 2,
+                 'audi': 3,
+                 'volkswagen': 4}
+    # Read CSV
+    # Look up make from CSV
     if make.lower() in recognised_makes:
-        return 'I recognise {} '.format(make)
+        return 'I recognise {}. {} '.format(make_data[make.lower()], make)
     else:
-        return 'I do not recognise {} '.format(make)
+        return 'I do not recognise {}. {} '.format(make)
     return 'Error in input!'
 
 
