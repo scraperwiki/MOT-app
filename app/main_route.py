@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from flask import Flask
+from flask import Flask, render_template
 from app import app
 #app = Flask(__name__)
 
 @app.route('/')
-def hello_world():
-    return 'Hello World!'
+def root():
+    return render_template("car-search.html")
 
 @app.route('/<make>')
 def visit_make(make):
