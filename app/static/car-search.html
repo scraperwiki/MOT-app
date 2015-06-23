@@ -8,9 +8,9 @@
     <title>MOT Car Fault Search</title>
 
     <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-	<script src="js/jquery-1.11.3.min.js"></script>
-	<script src="js/bootstrap.js"></script>
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<script src="bootstrap/js/jquery-1.11.3.min.js"></script>
+	<script src="bootstrap/js/bootstrap.js"></script>
 	
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -48,11 +48,7 @@
           Select Make of Car
           <span class="caret"></span>
         </button>
-        <ul class="dropdown-menu" id = make>
-          <li><a href="#">Ford</a></li>
-          <li><a href="#">Audi</a></li>
-          <li><a href="#">Mercedes</a></li>
-        </ul>
+        <select id=make></select>
       </div>
     </div>
   </div>
@@ -84,7 +80,7 @@ var cars = {"ABARTH": ["500", "GRANDE PUNTO 155 BHP"], "AC": ["UNCLASSIFIED"]}
 
 options = '';
 for (key in cars){
-    options += '<li><a href=#>' + key + '</a></li>';
+    
 	options += '<option value="'+ key +'">' + key + '</option>';
 }
 $("#make").html(options);
