@@ -85,6 +85,7 @@ var cars = {"ABARTH": ["500", "GRANDE PUNTO 155 BHP"], "AC": ["UNCLASSIFIED"]}
 options = '';
 for (key in cars){
     options += '<li><a href=#>' + key + '</a></li>';
+	options += '<option value="'+ key +'">' + key + '</option>';
 }
 $("#make").html(options);
 </script>
