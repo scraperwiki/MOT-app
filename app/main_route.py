@@ -2,12 +2,12 @@
 # encoding: utf-8
 
 from flask import Flask, render_template
-from app import app
-#app = Flask(__name__)
+#from app import app
+app = Flask(__name__, static_url_path = "/static")
 
 @app.route('/')
 def root():
-    return render_template("car-search.html")
+    return app.send_static_file("car-search.html")
 
 @app.route('/<make>')
 def visit_make(make):
@@ -26,4 +26,4 @@ def visit_make(make):
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug = True)

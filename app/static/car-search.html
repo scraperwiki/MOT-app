@@ -8,9 +8,9 @@
     <title>MOT Car Fault Search</title>
 
     <!-- Bootstrap -->
-    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-	<script src="bootstrap/js/jquery-1.11.3.min.js"></script>
-	<script src="bootstrap/js/bootstrap.js"></script>
+    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<script src="/static/bootstrap/js/jquery-1.11.3.min.js"></script>
+	<script src="/static/bootstrap/js/bootstrap.js"></script>
 	
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -65,26 +65,30 @@
 
 
 <!-- Test area -->
-<p id="demo">Hey test me!</p>
+
 
 <script>
-var cars = {"ABARTH": ["500", "GRANDE PUNTO 155 BHP"], "AC": ["UNCLASSIFIED"]}
+global_cars = {};
+$.getJSON( "/static/MakesAndModels.json", function( cars ){
+global_cars = cars;
+
 options = '';
-for (key in cars){    
-	options += '<option value="'+ key +'">' + key + '</option>';
-}
+var keys = Object.keys(cars);
+keys.sort();
+$.each(keys, function(index, value){options += '<option value="'+ value +'">' + value + '</option>';})
+
 $("#make").html(options);
+})
 
 function getModel()
 {
 	options = "";
 	var e = document.getElementById("make");
 	var makeText = e.options[e.selectedIndex].text;
-	document.getElementById("demo").innerHTML = makeText;
-	for (key in cars[makeText]){    
-	options += '<option value="'+ cars[makeText][key] +'">' + cars[makeText][key] + '</option>';
-	}
-	document.getElementById("demo").innerHTML = cars[makeText];
+	var model_keys = global_cars[makeText];
+	model_keys.sort();
+	$.each(model_keys, function(index, value){options += '<option value="'+ value +'">' + value + '</option>';})
+	
 	$("#model").html(options);
 }
 
