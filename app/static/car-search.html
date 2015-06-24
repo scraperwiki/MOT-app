@@ -39,16 +39,12 @@
 
 <!-- Car Make -->
 <div  style="width:800px; margin:0 auto;" class="control-group">
-  <label class="control-label" for="car-make-input">Select Car Make</label>
+  <label class="control-label" for="car-make-input">Select Make of Car</label>
   <div class="controls">
     <div class="input-append">
       <!--<input id="car-make-input" name="car-make-input" class="input-xlarge" placeholder="e.g. Ford" type="text" required="">-->
       <div class="btn-group">
-        <button class="btn dropdown-toggle" data-toggle="dropdown">
-          Select Make of Car
-          <span class="caret"></span>
-        </button>
-        <select id=make></select>
+        <select id="make" class="icon-menu" onchange="getModel()"></select>
       </div>
     </div>
   </div>
@@ -56,34 +52,42 @@
 
 <!-- Car Model -->
 <div  style="width:800px; margin:0 auto;" class="control-group">
-  <label class="control-label" for="car-make-input">Select Car Model</label>
+  <label class="control-label" for="car-make-input">Select Model of Car</label>
   <div class="controls">
     <div class="input-append">
       <!--<input id="car-make-input" name="car-make-input" class="input-xlarge" placeholder="e.g. Fiesta" type="text" required="">-->
       <div class="btn-group">
-        <button class="btn dropdown-toggle" data-toggle="dropdown">
-          Select Model of Car
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu">
-          <li><a href="#">Fiesta</a></li>
-          <li><a href="#">Galaxie</a></li>
-          <li><a href="#">Festiva</a></li>
-        </ul>
+        <select id="model" class="icon-menu"></select>
       </div>
     </div>
   </div>
 </div>
 
+
+<!-- Test area -->
+<p id="demo">Hey test me!</p>
+
 <script>
 var cars = {"ABARTH": ["500", "GRANDE PUNTO 155 BHP"], "AC": ["UNCLASSIFIED"]}
-
 options = '';
-for (key in cars){
-    
+for (key in cars){    
 	options += '<option value="'+ key +'">' + key + '</option>';
 }
 $("#make").html(options);
+
+function getModel()
+{
+	options = "";
+	var e = document.getElementById("make");
+	var makeText = e.options[e.selectedIndex].text;
+	document.getElementById("demo").innerHTML = makeText;
+	for (key in cars[makeText]){    
+	options += '<option value="'+ cars[makeText][key] +'">' + cars[makeText][key] + '</option>';
+	}
+	document.getElementById("demo").innerHTML = cars[makeText];
+	$("#model").html(options);
+}
+
 </script>
 
 <!-- Button -->
