@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -54,8 +54,78 @@
     left:-40px;
     }
 
+    #demo {
+    position:relative;
+    top:20px;
+    left:400px;
+    }
+
     
     </style>
+
+    <script>
+      //var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+      global_cars = {};
+      selectedMake = "";
+      selectedModel = "";
+      $.getJSON( "/static/MakesAndModels.json", function( cars ){
+        global_cars = cars;
+        options = '';
+        var keys = Object.keys(cars);
+        keys.sort();
+        $.each(keys, function(index, value){options += '<option value="'+ value +'">' + value + '</option>';})
+        $("#make").html(options);
+      })
+
+      function getModel()
+      {
+        options = "";
+        var e = document.getElementById("make");
+        var makeText = e.options[e.selectedIndex].text;
+        selectedMake = makeText;
+        var model_keys = global_cars[makeText];
+        model_keys.sort();
+        $.each(model_keys, function(index, value){options += '<option value="'+ value +'">' + value + '</option>';})      
+        $("#model").html(options);
+
+        var m = document.getElementById("model");
+        selectedModel = m.options[m.selectedIndex].text;
+      }
+
+    //   $(function() {
+    //   var submit_form = function(e) {
+    //     $.getJSON($SCRIPT_ROOT + '/visit_make', {
+    //       a: selectedMake,
+    //       b: selectedModel
+    //     }, function(data) {
+    //       $('#submit-button').text(data.result);
+    //       $('input[name=a]').focus().select();
+    //     });
+    //     return false;
+    //   };
+
+    //   $('#submit-button').bind('click', submit_form);
+
+    //   $('input[type=text]').bind('keydown', function(e) {
+    //     if (e.keyCode == 13) {
+    //       submit_form(e);
+    //     }
+    //   });
+
+    //   $('input[name=a]').focus();
+    // });
+
+         
+
+    // $(document).ready(function(){
+    //   $("button").click(function(){
+    //       var model = $("#model").val();
+    //       document.getElementById('demo').innerHTML = 'hi '+ selectedMake +" "+ model;
+    //   });
+    // });
+
+    </script>
+
   </head>
   <body>
     <div class="img">
@@ -70,7 +140,7 @@
      <a target="_blank" href="https://scraperwiki.com/"><img src="/static/imageMOT2.jpg" alt="Klematis" width="350" height="250"></a>     
     </div>
 
-    <form class="form-horizontal">
+    <form class="form-horizontal" method="POST">
     <fieldset>
 
     <!-- Form Name -->
@@ -93,7 +163,7 @@
         <div class="input-append">
           <!--<input id="car-make-input" name="car-make-input" class="input-xlarge" placeholder="e.g. Ford" type="text" required="">-->
           <div class="btn-group">
-            <select id="make" class="icon-menu" onchange="getModel()"></select>
+            <select id="make" class="icon-menu" onchange="getModel()" name="make"></select>
           </div>
         </div>
       </div>
@@ -106,7 +176,7 @@
         <div class="input-append">
           <!--<input id="car-make-input" name="car-make-input" class="input-xlarge" placeholder="e.g. Fiesta" type="text" required="">-->
           <div class="btn-group">
-            <select id="model" class="icon-menu"></select>
+            <select id="model" class="icon-menu" name="model"></select>
           </div>
         </div>
       </div>
@@ -114,40 +184,14 @@
 
 
     <!-- Test area -->
+    <p id="demo">Test Me!</p>
 
-
-    <script>
-    global_cars = {};
-    $.getJSON( "/static/MakesAndModels.json", function( cars ){
-    	global_cars = cars;
-
-    	options = '';
-    	var keys = Object.keys(cars);
-    	keys.sort();
-    	$.each(keys, function(index, value){options += '<option value="'+ value +'">' + value + '</option>';})
-
-    	$("#make").html(options);
-    })
-
-    function getModel()
-    {
-    	options = "";
-    	var e = document.getElementById("make");
-    	var makeText = e.options[e.selectedIndex].text;
-    	var model_keys = global_cars[makeText];
-    	model_keys.sort();
-    	$.each(model_keys, function(index, value){options += '<option value="'+ value +'">' + value + '</option>';})
-    	
-    	$("#model").html(options);
-    }
-
-    </script>
-
+    
     <!-- Button -->
     <div class="form-group">
       <label class="col-md-4 control-label" for="submit-button"></label>
       <div class="col-md-4">
-        <button id="submit-button" name="submit-button" class="btn btn-primary"><strong>Display Top Faults</strong></button>
+        <input id="submit-button" name="submit-button" class="btn btn-primary" type="submit"><strong>Display Top Faults</strong></input>
       </div>
     </div>
 
