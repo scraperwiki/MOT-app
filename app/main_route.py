@@ -39,7 +39,7 @@ def navigate():
 @app.route('/<make>/<model>')
 def visit_make(make, model):
     """obtain the values chosen by the user for make and model..."""
-    results = sort_by_count(select_make_model(make, model))
+    results = sort_by_count(select_make_model(make, model))[:10]
     return render_template('result.html', results=results)
 
 
