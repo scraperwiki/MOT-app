@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Results</title>
+</head>
+<body>
+<table>
+	{% for result in results %}
+	<tr>
+		<td>
+		{{ result.description }}
+		</td>
+	</tr>
+	{% endfor %}
+</table>
+</body>
+</html>

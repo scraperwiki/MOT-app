@@ -2,8 +2,30 @@
 # encoding: utf-8
 
 from flask import Flask, render_template, request, jsonify, redirect
+import csv
+from collections import namedtuple
 #from app import app
 app = Flask(__name__, static_url_path = "/static")
+
+Record = namedtuple("Record", "make model description count")
+def make_record(line):
+    (make, model, description, count) = line
+    return Record(make.strip(), model.strip(), description.strip(), int(count))
+    
+with open("static/SummedData.csv") as fd:
+    records = list(csv.reader(fd))
+    records = records[1:]
+    records = [make_record(r) for r in records]
+    
+def select_make_model(make, model):
+    return [r for r in records if
+        r.make == make and r.model == model]
+        
+def key(r):
+    return r.count
+
+def sort_by_count(r):         
+    return sorted(r, key=key, reverse=True)
 
 @app.route('/')
 def root():
@@ -17,8 +39,8 @@ def navigate():
 @app.route('/<make>/<model>')
 def visit_make(make, model):
     """obtain the values chosen by the user for make and model..."""
-    
-    return jsonify(result=make + model)    
+    results = sort_by_count(select_make_model(make, model))
+    return render_template('result.html', results=results)
 
 
 if __name__ == '__main__':
