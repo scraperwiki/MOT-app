@@ -10,14 +10,14 @@
 </head>
 <body>
 <table>
-	{% set total = results|sum(attribute='count') %}
-	{% for result in results %}
+	
+	{% for record, percentage in results.items() %}
 	<tr>
 		<td>
-		{{ result.description }}
+		{{ record.description }}
 		</td>
 		<td class="percent-cell">
-		{{ (100 * result.count / total)|round(1) }}%
+		{{ percentage }}%
 		</td>
 	</tr>
 	{% endfor %}

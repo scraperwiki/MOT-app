@@ -3,7 +3,7 @@
 
 from flask import Flask, render_template, request, jsonify, redirect
 import csv
-from collections import namedtuple
+from collections import namedtuple, OrderedDict
 #from app import app
 app = Flask(__name__, static_url_path = "/static")
 
@@ -27,11 +27,20 @@ def key(r):
 def sort_by_count(r):         
     return sorted(r, key=key, reverse=True)
 
-# def get_total_count(r):
-#     sum = 0
-#     for record in r:
-#         sum += record.count
-#     return sum
+def get_total_count(selection):
+    sum = 0
+    for record in selection:
+        sum += record.count
+    return sum
+
+def get_percentage(record, sum_of_counts):
+    #percentage_dictionary = {}
+    
+    
+    percentage = record.count/sum_of_counts
+    percentage = round(100*percentage, 1)
+
+    return percentage
 
 
 @app.route('/')
@@ -47,9 +56,13 @@ def navigate():
 def visit_make(make, model):
     """obtain the values chosen by the user for make and model..."""
     results = sort_by_count(select_make_model(make, model))[:10]
-    print(results)
-    # print(get_total_count(results))
-    return render_template('result.html', results=results)
+    
+    sum_of_counts = get_total_count(results)
+    # print(get_total_count())
+    results_dictionary = OrderedDict()
+    for result in results:
+        results_dictionary[result] = get_percentage(result, sum_of_counts)
+    return render_template('result.html', results=results_dictionary)
 
 
 if __name__ == '__main__':
