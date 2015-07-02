@@ -1,14 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<style type="text/css">
+	.percent-cell {
+		text-align: right;
+	}
+	</style>
 	<title>Results</title>
 </head>
 <body>
 <table>
+	{% set total = results|sum(attribute='count') %}
 	{% for result in results %}
 	<tr>
 		<td>
 		{{ result.description }}
+		</td>
+		<td class="percent-cell">
+		{{ (100 * result.count / total)|round(1) }}%
 		</td>
 	</tr>
 	{% endfor %}

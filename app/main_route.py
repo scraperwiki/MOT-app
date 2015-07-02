@@ -27,6 +27,13 @@ def key(r):
 def sort_by_count(r):         
     return sorted(r, key=key, reverse=True)
 
+# def get_total_count(r):
+#     sum = 0
+#     for record in r:
+#         sum += record.count
+#     return sum
+
+
 @app.route('/')
 def root():
     return app.send_static_file("car-search.html")
@@ -40,6 +47,8 @@ def navigate():
 def visit_make(make, model):
     """obtain the values chosen by the user for make and model..."""
     results = sort_by_count(select_make_model(make, model))[:10]
+    print(results)
+    # print(get_total_count(results))
     return render_template('result.html', results=results)
 
 
