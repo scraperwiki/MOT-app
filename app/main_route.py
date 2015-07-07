@@ -34,8 +34,6 @@ def get_total_count(selection):
     return sum
 
 def get_percentage(record, sum_of_counts):
-    #percentage_dictionary = {}
-    
     
     percentage = record.count/sum_of_counts
     percentage = round(100*percentage, 1)
@@ -45,7 +43,7 @@ def get_percentage(record, sum_of_counts):
 
 @app.route('/')
 def root():
-    return app.send_static_file("car-search.html")
+    return app.send_static_file("index.html")
 
 @app.route('/', methods=['POST'])
 def navigate():
@@ -55,14 +53,14 @@ def navigate():
 @app.route('/<make>/<model>')
 def visit_make(make, model):
     """obtain the values chosen by the user for make and model..."""
-    results = sort_by_count(select_make_model(make, model))[:10]
-    
+    results = sort_by_count(select_make_model(make, model))
+        
     sum_of_counts = get_total_count(results)
-    # print(get_total_count())
+    
     results_dictionary = OrderedDict()
-    for result in results:
+    for result in results[:10]:
         results_dictionary[result] = get_percentage(result, sum_of_counts)
-    return render_template('result.html', results=results_dictionary)
+    return render_template('result.html', results=results_dictionary, make=make, model=model)
 
 
 if __name__ == '__main__':
