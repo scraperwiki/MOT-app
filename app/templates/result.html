@@ -2,7 +2,7 @@
 <html>
 <head>
 	<style type="text/css">
-	.percent-cell {
+	.value-cell {
 		text-align: right;
 	}
 	.header {
@@ -14,11 +14,13 @@
 <body>
 <table>
 	<tr>
-    	<th colspan="2">Top 10 Fault Summary for {{ make }} {{ model }}</th>    		
+    	<th colspan="4">Top 10 Fault Summary for {{ make }} {{ model }}</th>    		
     </tr>
 	<tr>
-	    <th class="header">Fault Top-Level description    </th>
-	    <th class="header">  Percentage of Vehicles with this Fault</th>		
+	    <th class="header">Fault Top-Level description</th>
+	    <th class="header">Count of Vehicles with this Fault</th>
+	    <th class="header">Total Count</th>
+	    <th class="header">Percentage</th>		
     </tr>
 	
 	{% for record, percentage in results.items() %}
@@ -26,7 +28,13 @@
 		<td>
 		{{ record.description }}
 		</td>
-		<td class="percent-cell">
+		<td class="value-cell">
+		{{ record.count }}
+		</td>
+		<td class="value-cell">
+		{{ total }}
+		</td>
+		<td class="value-cell">
 		{{ percentage }}%
 		</td>
 	</tr>

@@ -60,7 +60,7 @@ def visit_make(make, model):
     results_dictionary = OrderedDict()
     for result in results[:10]:
         results_dictionary[result] = get_percentage(result, sum_of_counts)
-    return render_template('result.html', results=results_dictionary, make=make, model=model)
+    return render_template('result.html', results=results_dictionary, make=make, model=model, total=sum_of_counts)
 
 
 if __name__ == '__main__':
