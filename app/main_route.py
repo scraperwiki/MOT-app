@@ -42,8 +42,8 @@ def get_percentage(record, sum_of_counts):
 
 
 @app.route('/')
-def root():
-    return app.send_static_file("index.html")
+def index():
+    return render_template("index.html")
 
 @app.route('/', methods=['POST'])
 def navigate():
