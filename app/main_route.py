@@ -51,7 +51,7 @@ def navigate():
 
 
 @app.route('/<make>/<model>')
-def visit_make(make, model):
+def visit_vehicle_level1(make, model):
     """obtain the values chosen by the user for make and model..."""
     results = sort_by_count(select_make_model(make, model))
         
@@ -60,7 +60,12 @@ def visit_make(make, model):
     results_dictionary = OrderedDict()
     for result in results[:10]:
         results_dictionary[result] = get_percentage(result, sum_of_counts)
-    return render_template('result.html', results=results_dictionary, make=make, model=model, total=sum_of_counts)
+    return render_template('resultlevel1.html', results=results_dictionary, make=make, model=model, total=sum_of_counts)
+
+
+@app.route('/<make>/<model>/<level1>')
+def visit_vehicle_level2(make, model, level1):
+    return "I got here successfully! and level 1 fault selected is "+ level1
 
 
 if __name__ == '__main__':
