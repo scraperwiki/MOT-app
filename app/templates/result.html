@@ -1,12 +1,19 @@
-<!DOCTYPE html>
-<html>
-<head>
 {% extends "base.html" %}
 {% block content %}
 	<style type="text/css">
 	.value-cell {
 		text-align: right;
 	}
+
+	table, th, td {
+    border: 1px solid black;
+	}
+
+	.tabledesc {
+    position:relative;
+    top:40px;
+    }
+
 	.header {
 		text-align: left;
 	}
@@ -62,8 +69,7 @@
 
 	</style>
 	<title>Results</title>
-</head>
-<body>
+
 	<script type="text/javascript">
 			sfHover = function() {
 		var sfEls = document.getElementById("nav").getElementsByTagName("td");
@@ -78,36 +84,35 @@
 		}
 		if (window.attachEvent) window.attachEvent("onload", sfHover);
 	</script>
-<table>
-	<tr>
-    	<th colspan="4">Top 10 Fault Summary for {{ make }} {{ model }}</th>    		
-    </tr>
-	<tr>
-	    <th class="header">Fault Top-Level description</th>
-	    <th class="header">Count of Vehicles with this Fault</th>
-	    <th class="header">Total Count</th>
-	    <th class="header">Percentage</th>		
-    </tr>
-	
-	{% for record, percentage in results.items() %}
-	<tr>
-		<td>
-			<a href="#">
-			{{ record.description }}
-			</a>		
-		</td>
-		<td class="value-cell">
-		{{ record.count }}
-		</td>
-		<td class="value-cell">
-		{{ total }}
-		</td>
-		<td class="value-cell">
-		{{ percentage }}%
-		</td>
-	</tr>
-	{% endfor %}
-</table>
-</body>
-</html>
+	<table cellspacing="50" class="tabledesc">
+		<tr>
+	    	<th colspan="4">Top 10 Fault Summary for {{ make }} {{ model }}</th>    		
+	    </tr>
+		<tr>
+		    <th class="header">Fault Top-Level description</th>
+		    <th class="header">Count of Vehicles with this Fault</th>
+		    <th class="header">Total Count</th>
+		    <th class="header">Percentage</th>		
+	    </tr>
+		
+		{% for record, percentage in results.items() %}
+		<tr>
+			<td>
+				<a href="#">
+				{{ record.description }}
+				</a>		
+			</td>
+			<td class="value-cell">
+			{{ record.count }}
+			</td>
+			<td class="value-cell">
+			{{ total }}
+			</td>
+			<td class="value-cell">
+			{{ percentage }}%
+			</td>
+		</tr>
+		{% endfor %}
+	</table>
+
 {% endblock %}
