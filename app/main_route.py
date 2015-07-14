@@ -1,11 +1,14 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+# imports
 from flask import Flask, render_template, request, jsonify, redirect
 import csv
 from collections import namedtuple, OrderedDict
 #from app import app
 app = Flask(__name__, static_url_path = "/static")
+
+# Level 1 functions
 
 Record = namedtuple("Record", "make model description count")
 def make_record(line):
@@ -41,6 +44,24 @@ def get_percentage(record, sum_of_counts):
     return percentage
 
 
+# Level 2 functions
+Bigrecord = namedtuple("Bigrecord", "make model level1 level2 level3 count")
+def make_record_level2(line):
+    (make, model, level1, level2, level3, count) = line
+    return Bigrecord(make, model, level1, level2, level3, int(count))
+
+with open("static/WholeData.csv") as fd1:
+    records1 = list(csv.reader(fd1))
+    records1 = records1[1:]
+    records1 = [make_record_level2(r) for r in records1]
+
+def select_level2(make, model, level1):
+    return [r for r in records1 if
+        r.make == make and r.model == model and r.level1 == level1]
+
+
+# app routing
+
 @app.route('/')
 def index():
     return render_template("index.html")
@@ -65,7 +86,9 @@ def visit_vehicle_level1(make, model):
 
 @app.route('/<make>/<model>/<level1>')
 def visit_vehicle_level2(make, model, level1):
-    return "I got here successfully! and level 1 fault selected is "+ level1
+    results = sort_by_count(select_level2(make, model, level1))
+    sum_of_counts = get_total_count(results)
+    return render_template('resultlevel2.html', results=results, make=make, model=model, level1=level1, total=sum_of_counts)
 
 
 if __name__ == '__main__':

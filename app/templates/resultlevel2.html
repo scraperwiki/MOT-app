@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% set title = 'Second Order Query Results' %}
+{% block content %}
+
+	<style type="text/css">
+	.value-cell {
+		text-align: left;
+	}
+
+	table, th, td {
+    border: 1px solid black;
+	}
+
+	.tabledesc {
+    position:relative;
+    top:40px;
+    left: 0px;
+    }
+
+	.header {
+		text-align: left;
+	}
+
+	</style>	
+
+	<!--Test
+	<p id="demo">Test</p>
+	-->
+	<table cellspacing="50" class="tabledesc">
+		<tr>
+	    	<th colspan="5">Fault BreakDown for {{ make }} {{ model }} that had issues with {{ level1 }}</th>    		
+	    </tr>
+		<tr>
+		    <th class="header">Top-Level Description Selected</th>
+		    <th class="header">Fault Full Description</th>
+		    <th class="header">Count of Vehicles with this Description</th>		  	
+	    </tr>
+		
+		
+		{% for record in results %}
+			<tr id="{{ index }}">
+				<td>				
+					<b>{{ record.level1 }}</b>						
+				</td>
+				<td class="value-cell">
+				{{ record.level2 + ' ' + record.level3 }}
+				</td>
+				<td class="value-cell">
+				{{ record.count }} ({{ ((100*record.count)/total)|round(1) }}%)
+				</td>				
+			</tr>			
+		{% endfor %}
+	</table>
+
+{% endblock %}
