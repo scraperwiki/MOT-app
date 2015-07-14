@@ -1,6 +1,5 @@
   {% extends "base.html" %}
-  <script type="text/javascript"></script> 
-  
+    
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     
     {% set title = 'ScraperWiki MOT Vehicle Fault Search' %}
@@ -21,11 +20,8 @@
     z-index: -1;
     }
 
-    #topic {
-    position:relative;
-    top:40px;
+    #topic {    
     text-align: center;
-    left:-40px;
     }
 
     #demo {
@@ -60,17 +56,35 @@
         $("#model").html(options);        
       }    
 
+      function blink() {
+        var blinks = document.getElementsByTagName('blink');
+        for (var i = blinks.length - 1; i >= 0; i--) {
+          var s = blinks[i];
+          s.style.visibility = (s.style.visibility === 'visible') ? 'hidden' : 'visible';
+          s.style.color = "#FF6600";
+        }
+        window.setTimeout(blink, 1000);
+      }
+
+      if (document.addEventListener) document.addEventListener("DOMContentLoaded", blink, false);
+      else if (window.addEventListener) window.addEventListener("load", blink, false);
+      else if (window.attachEvent) window.attachEvent("onload", blink);
+      else window.onload = blink;
+
     </script>  
   
     <form method="POST">
     <fieldset>
 
     <!-- Form Name -->
-    <legend id="topic" class="text-center"><h1>MOT Vehicle <strong>Top Fault</strong> Search</h1></legend>
+    <legend id="topic" class="text-center">
+      <h3>MOT Vehicle <strong>Top Fault</strong> Search<br>
+      Brought to You by <blink>ScraperWiki</blink></h3>
+    </legend>
 
     <!-- Car Make Selection -->
     <div class="control-group">
-      <label id="maketext"class="control-label" for="car-make-input" style="font-size:20px">What's the Make of the Vehicle You Want to Know About?</label>
+      <label id="maketext"class="control-label" for="car-make-input" style="font-size:20px">What's the <b>Make</b> of the Vehicle You Want to Know About?</label>
       <div class="controls">
         <div class="input-append">
           <!--<input id="car-make-input" name="car-make-input" class="input-xlarge" placeholder="e.g. Ford" type="text" required="">-->
@@ -83,7 +97,7 @@
 
     <!-- Car Model Selection -->
     <div class="control-group">
-      <label class="control-label" for="car-model-input" style="font-size:20px">What Model?</label>
+      <label class="control-label" for="car-model-input" style="font-size:20px">What <b>Model</b>?</label>
       <div class="controls">
         <div class="input-append">
           <!--<input id="car-make-input" name="car-make-input" class="input-xlarge" placeholder="e.g. Fiesta" type="text" required="">-->

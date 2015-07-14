@@ -13,43 +13,91 @@
 .site-footer {
 	background-color: #222;
 	color: #fff;
-	margin-top: 30px;
-	padding-top: 30px
+	margin-top: 80px;
+	padding-top: 10px
 }
 
 .bottom-footer
 {
 	border-top: 1px solid #b2b2b2
-	margin-top: 10px;
-	padding-top: 10px;
+	padding-top: 0px;
 	color: #b2b2b2
 }
 
 .footer-nav
 {
+	font-size: 100%;
 	text-align: right;
 	list-style: none;
-
+	padding-top: 0px;
+	padding-bottom: 10px;
 }
+
 .footer-nav li
 {
-	display: inline;
-	
+	display: inline;	
 }
 
 .footer-nav li:not(:first-child):before
 {
-	content: '|';
+	content: '| ';
 	padding-top: 0px 10px;
 }
 
 .footer-nav a
 {
-	color: #b2b2b2;
+	color: blue;
 }
 
 .footer-nav a:hover
 {
+	color: red;
+	text-decoration: none;
+}
+
+.site-header {
+	background-color: #E0E0E0;
 	color: #fff;
+	margin-top: 0px;
+	padding-top: 0px
+}
+
+.header-image {
+	display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#images{
+    text-align:center;
+}
+
+.header-nav
+{
+	font-size: 1.3em;
+	text-align: center;
+	list-style: none;
+	padding-top: 30px;
+	padding-bottom: 20px;
+}
+.header-nav li
+{
+	display: inline;	
+}
+
+.header-nav li:not(:first-child):before
+{
+	content: '| ';
+	padding-top: 0px 10px;
+}
+
+.header-nav a
+{
+	color: blue;
+}
+
+.header-nav a:hover
+{
+	color: red;
 	text-decoration: none;
 }

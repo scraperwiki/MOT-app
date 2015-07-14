@@ -9,17 +9,17 @@
 	}
 
 	table, th, td {
-    border: 1px solid black;
+    border: 1px solid grey;
 	}
 
 	.tabledesc {
     position:relative;
     top:40px;
-    left: 0px;
+    left: 0px;    
     }
 
 	.header {
-		text-align: left;
+		text-align: center;
 	}
 
 	#nav, #nav ul {
@@ -75,23 +75,7 @@
 	
 
 	<script type="text/javascript">
-		// 	sfHover = function() {
-		// var sfEls = document.getElementById("nav").getElementsByTagName("td");
-		// for (var i=0; i<sfEls.length; i++) {
-		// 	sfEls[i].onmouseover=function() {
-		// 		this.className+=" sfhover";
-		// 	}
-		// 	sfEls[i].onmouseout=function() {
-		// 		this.className=this.className.replace(new RegExp(" sfhover\\b"), "");
-		// 	}
-		// }
-		// }
-		// if (window.attachEvent) window.attachEvent("onload", sfHover);
-
-		var el = document.getElementById('foo');
-		el.onclick = showFoo;
-
-
+		
 		function showFoo(index) {
 			var row = document.getElementById(index);
         	var cell = row.getElementsByTagName("td");
@@ -134,7 +118,7 @@
 				</td>
 				<td>
 					<a href="#" onclick="showFoo({{ index }});">
-					<small>show more detail</small>
+					<small>break this down</small>
 					</a>
 				</td>
 			</tr>
