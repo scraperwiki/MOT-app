@@ -69,7 +69,7 @@
 	display: inline-block;
     margin-left: auto;
     margin-right: auto;
-    padding-bottom: 20px;
+    padding-bottom: 0px;
 }
 
 #images{
@@ -81,7 +81,7 @@
 	font-size: 1.3em;
 	text-align: center;
 	list-style: none;
-	padding-top: 30px;
+	padding-top: 20px;
 	padding-bottom: 20px;
 }
 .header-nav li
@@ -115,4 +115,24 @@
 
 .header {
 		text-align: center;
+}
+
+.banner-col
+{	
+	color: black;
+}
+
+.banner-subtitle
+{
+	color: blue;
+}
+
+.banner-subtitle1
+{
+	color: #FF6600;
+}
+
+.text-blue
+{
+	color:#43ADF1
 }
