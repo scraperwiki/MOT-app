@@ -11,7 +11,7 @@
 
       <!-- Header -->
       <header>
-        <div class="container">
+        <div>
           <div class="site-header">
             <nav class="header-nav">
               <li><a href="/">Home</a></li>
@@ -26,7 +26,7 @@
               <a href="https://scraperwiki.com/"><img src="{{ url_for('static', filename = 'imageMOT2.jpg') }}" class="header-image" alt="Responsive image"></a>
             </div>             
           </div>         
-          <div>            
+          <div class="container">            
             {% block content %}{% endblock %}
           </div>      
         </div>
