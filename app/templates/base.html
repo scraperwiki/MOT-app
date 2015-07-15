@@ -4,8 +4,12 @@
       <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
       <link rel="stylesheet" href="https://www.scraperwiki.com/vendor/style/bootstrap.min.css">
       <link rel="stylesheet" href="{{ url_for('static', filename='custom.css') }}">
+      <!--link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}"-->      
       <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
       <script src="//www.scraperwiki.com/vendor/js/bootstrap.min.js"></script>
+       <script src="{{ url_for('static', filename='vendor.js') }}"></script>
+       <script src="{{ url_for('static', filename='main.js') }}"></script>
+       
   </head>
   <body>
 
@@ -24,7 +28,17 @@
               <a href="http://data.gov.uk/dataset/anonymised_mot_test/"><img src="{{ url_for('static', filename = 'imageMOT.jpg') }}" class="header-image" alt="Responsive image"></a>
               <a href="#"><img src="{{ url_for('static', filename = 'imageMOT1.jpg') }}" class="header-image" alt="Responsive image"></a>
               <a href="https://scraperwiki.com/"><img src="{{ url_for('static', filename = 'imageMOT2.jpg') }}" class="header-image" alt="Responsive image"></a>
-            </div>             
+            </div>  
+            <!-- BANNER -->
+            <section id="banner" class="banner-section" data-section="1">
+                <div class="banner-container">
+                    <content class="banner-col">
+                        <h1 class="banner-title">What are the Typical Faults Discovered with <span id="banner-typeset" class="text-blue"></span></h1>
+                        <h4 class="banner-subtitle">At ScraperWiki, With Data Science, we’ll tell you.</h4>
+                    </content><!-- .banner-col-centered -->
+                </div><!-- .banner-container -->
+                <img class="banner-image" src="images/banner_device.jpg" srcset="images/banner_device.jpg 1x, images/banner_device@2x.jpg 2x" class="application-logo" alt="Density Device">
+            </section><!-- .banner-section -->           
           </div>         
           <div class="container">            
             {% block content %}{% endblock %}

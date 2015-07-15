@@ -10,26 +10,15 @@
 	table, th, td {
     border: 1px solid grey;
 	}
-
-	.tabledesc {
-    position:relative;
-    top:40px;
-    left: 0px;
-    }
-
-	.header {
-		text-align: center;
-	}
-
+	
 	</style>	
 
 	<!--Test
 	<p id="demo">Test</p>
 	-->
+	<h4 class="header">Fault BreakDown for the {{ total }} '{{ make }} {{ model }}'s with '{{ level1 }}' issues</h4>
 	<table cellspacing="50" class="tabledesc">
-		<tr>
-	    	<th colspan="5">Fault BreakDown for the {{ total }} {{ make }} {{ model }}s with {{ level1 }} issues</th>    		
-	    </tr>
+		
 		<tr>
 		    <th class="header">Top-Level Description Selected</th>
 		    <th class="header">Fault Full Description</th>
