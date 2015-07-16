@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% set title = 'Pass Rate' %}
+{% set index = 0 %}
+{% block content %}
+
+	
+	<script type="text/javascript">
+		
+		function showFoo(index) {
+			var row = document.getElementById(index);
+        	var cell = row.getElementsByTagName("td");
+        	var currentdescription = cell[0].innerText;
+  			window.location.href = '/FAULTS/{{ make }}/{{ model }}/'+currentdescription;
+  			//document.getElementById("demo").innerHTML = String(currentdescription);
+		}
+		
+	</script>
+
+	<!--Test
+	<p id="demo">Test</p>
+	-->
+	<h3 class="header">Pass Rate for '{{ make }} {{ model }}' is:</h3>
+	<h3 class="header">{{ ((100*count_fail)/count_full)|round(1) }}%</h3>
+	<h3 class="header">{{ count_fail}} passes out of {{ count_full }} tests</h3>
+	<h3 class="header">Check how this compares to the top models</h3>
+
+			
+
+{% endblock %}

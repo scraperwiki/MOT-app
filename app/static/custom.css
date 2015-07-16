@@ -10,6 +10,14 @@
   border: none;
 }
 
+.value-cell {
+		text-align: right;
+}
+
+table, th, td {
+    border: 1px solid grey;
+}
+
 .site-footer {
 	background-color: #222;
 	color: #fff;
