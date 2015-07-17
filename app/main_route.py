@@ -13,6 +13,7 @@ app = Flask(__name__, static_url_path = "/static")
 import matplotlib.pyplot as plt; plt.rcdefaults()
 import numpy as np
 import matplotlib.pyplot as plt
+import pylab as pl
 
 # Level 1 functions
 
@@ -95,11 +96,21 @@ def visit_vehicle_level1(make, model):
     results = sort_by_count(select_make_model(make, model))
     results = [r for r in results if r.testresult == "F"]        
     sum_of_counts = get_total_count(results)
+
+    # array of descriptions
+    x = [r.description for r in results[:10]]
+
+    # array of counts
+    y = [r.count for r in results[:10]]    
+
+    #fig = pl.figure()
+    #ax = pl.subplot(111)
+    #ax.bar(x, y, width=100)
     
     results_dictionary = OrderedDict()
     for result in results[:10]:
         results_dictionary[result] = get_percentage(result, sum_of_counts)
-    return render_template('resultlevel1.html', results=results_dictionary, make=make, model=model, total=sum_of_counts)
+    return render_template('resultlevel1.html', results=results_dictionary, make=make, model=model, total=sum_of_counts)#, fig=fig)
 
 
 @app.route('/FAULTS/<make>/<model>/<level1>')
@@ -107,19 +118,6 @@ def visit_vehicle_level2(make, model, level1):
     results = sort_by_count(select_level2(make, model, level1))
     sum_of_counts = get_total_count(results)
     return render_template('resultlevel2.html', results=results, make=make, model=model, level1=level1, total=sum_of_counts)
-    people = ('Tom', 'Dick', 'Harry', 'Slim', 'Jim')
-    y_pos = np.arange(len(people))
-    performance = 3 + 10 * np.random.rand(len(people))
-    error = np.random.rand(len(people))
-
-    plt.barh(y_pos, performance, xerr=error, align='center', alpha=0.4)
-    plt.yticks(y_pos, people)
-    plt.xlabel('Performance')
-    plt.title('How fast do you want to go today?')
-
-    plt.show()
-
-
 
 if __name__ == '__main__':
     app.run(debug = True)

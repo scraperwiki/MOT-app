@@ -22,7 +22,7 @@ table, th, td {
 	background-color: #222;
 	color: #fff;
 	margin-top: 80px;
-	padding-top: 10px
+	padding-top: 10px;
 }
 
 .bottom-footer
@@ -74,6 +74,7 @@ table, th, td {
 }
 
 .header-image {
+	height: 25%;
 	display: inline-block;
     margin-left: auto;
     margin-right: auto;
@@ -86,7 +87,7 @@ table, th, td {
 
 .header-nav
 {
-	font-size: 1.3em;
+	font-size: 1.1em;
 	text-align: center;
 	list-style: none;
 	padding-top: 20px;
@@ -95,11 +96,11 @@ table, th, td {
 
 .advert
 {
-	font-size: 1.1em;
+	font-size: 1.2em;
 	text-align: center;	
 	padding-top: 10px;
 	padding-bottom: 10px;
-	background: #E0E0E0;
+	/*background: #E0E0E0;*/
 }
 
 .header-nav li
@@ -136,6 +137,11 @@ table, th, td {
 		text-align: center;
 }
 
+.indexbody {
+		text-align: center;
+		padding-top: 10px;
+}
+
 .banner-col
 {	
 	color: black;
@@ -156,3 +162,18 @@ table, th, td {
 	color:#43ADF1
 }
 
+* {
+    margin: 0;
+}
+html, body {
+    height: 100%;
+}
+.wrapper {
+    min-height: 40%;
+    height: auto;
+    /*height: 100%;*/
+    margin: 0 auto -20px; /* the bottom margin is the negative value of the footer's height */
+}
+.footer, .push {
+    height: 20px; /* .push must be the same height as .footer */
+}

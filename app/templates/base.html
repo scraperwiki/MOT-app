@@ -28,37 +28,26 @@
               <a href="#"><img src="{{ url_for('static', filename = 'imageMOT1.jpg') }}" class="header-image" alt="Responsive image"></a>
               <a href="https://scraperwiki.com/"><img src="{{ url_for('static', filename = 'imageMOT2.jpg') }}" class="header-image" alt="Responsive image"></a>
             </div>  
-                       
+
           </div>         
-          <div class="container">            
-            {% block content %}{% endblock %}
-          </div>      
+                
         </div>
       </header>     
-
+      <div class="wrapper">            
+        {% block content %}{% endblock %}
+        <div class="push"></div>
+      </div>
+      <div class="footer"></div>
       <!-- Footer -->
       <footer class="site-footer">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-5">
-              <h4>Contact Address</h4>
-              <address>
-                ScraperWiki, IC2<br>
-                Liverpool Science Park<br>
-                146 Brownlow Hill<br>
-                Liverpool L3 5RF
-              </address>
-            </div>
-            <div class="bottom-footer">
-              <div class="col-md-5">&copy; Copyright 2015, ScraperWiki Ltd.</div>
-              <div class="col-md-7">
-                <ul class="footer-nav">
-                  <li><a href="/">Home</a></li>
-                  <li><a href="https://www.linkedin.com/profile/view?id=200132727&trk=nav_responsive_tab_profile">About the Developer</a></li>    
-                </ul>
-              </div>
-            </div>
-          </div>          
+        <div class="container">                     
+          <div class="bottom-footer">
+            <div class="col-md-5">&copy; 2015 ScraperWiki Ltd.</div>              
+              <ul class="footer-nav">
+                <li><a href="/">Home</a></li>
+                <li><a href="https://www.linkedin.com/profile/view?id=200132727&trk=nav_responsive_tab_profile">About the Developer</a></li>    
+              </ul>              
+          </div>                   
         </div>
       </footer>
       
