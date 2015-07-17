@@ -77,7 +77,7 @@ table, th, td {
 	display: inline-block;
     margin-left: auto;
     margin-right: auto;
-    padding-bottom: 0px;
+    padding-bottom: 10px;
 }
 
 #images{
@@ -92,6 +92,16 @@ table, th, td {
 	padding-top: 20px;
 	padding-bottom: 20px;
 }
+
+.advert
+{
+	font-size: 1.1em;
+	text-align: center;	
+	padding-top: 10px;
+	padding-bottom: 10px;
+	background: #E0E0E0;
+}
+
 .header-nav li
 {
 	display: inline;	
@@ -116,9 +126,10 @@ table, th, td {
 
 .tabledesc {
     position:relative;
-    top:10px;
+    top:5px;
     left: 0px;
-    margin: 0px auto;    
+    margin: 0px auto;  
+    background: #A9A9F5;  
 }
 
 .header {
@@ -144,3 +155,4 @@ table, th, td {
 {
 	color:#43ADF1
 }
+

@@ -13,13 +13,6 @@
     <![endif]-->
     <style>
     
-    div.col-md-4 {
-    position: absolute;
-    left: 570px;
-    top: 300px;
-    z-index: -1;
-    }
-
     #topic {    
     text-align: center;
     }
@@ -72,7 +65,17 @@
       else window.onload = blink;
 
     </script>  
-  
+    <!-- BANNER -->
+            <section id="banner" class="advert" data-section="1">
+                <div class="banner-container">
+                    <content class="banner-col">
+                        <h1 class="banner-title">I want to buy a new <span id="banner-typeset" class="text-blue"></span></h1>
+                        <h4 class="banner-subtitle">What are the typical faults discovered with the various models at MOT testing?</h4>
+                        <h4 class="banner-subtitle">What are the pass rates of the various models at MOT testing?</h4>
+                        <h4 class="banner-subtitle1">At ScraperWiki, using data science, we’ll tell you.</h4>
+                    </content><!-- .banner-col-centered -->
+                </div><!-- .banner-container -->                
+            </section><!-- .banner-section -->
     <form method="POST">
     <fieldset>
 
@@ -113,16 +116,9 @@
       <label class="col-md-4 control-label" for="submit-button"></label>
       <div class="col-md-4">
         <input id="submit-button" name="submit-button" class="btn btn-primary" type="submit" value="Display Top Faults"></input>
-      </div>
-    </div>
-
-    <!-- Search Button 2 -->
-    <div class="form-group">
-      <label class="col-md-4 control-label" for="submit-button"></label>
-      <div class="col-md-4">
         <input id="submit-button2" name="submit-button" class="btn btn-primary" type="submit" value="Display Pass Rate"></input>
       </div>
-    </div>
+    </div>   
 
     </fieldset>
     </form>

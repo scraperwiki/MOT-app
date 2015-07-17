@@ -93,7 +93,7 @@ def pass_vehicle(make, model):
 def visit_vehicle_level1(make, model):
     """obtain the values chosen by the user for make and model..."""
     results = sort_by_count(select_make_model(make, model))
-        
+    results = [r for r in results if r.testresult == "F"]        
     sum_of_counts = get_total_count(results)
     
     results_dictionary = OrderedDict()
