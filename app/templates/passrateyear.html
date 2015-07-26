@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% set title = 'Pass Rate' %}
+
+{% block content %}
+
+	
+	<!--Test
+	<p id="demo">Test</p>
+	-->
+	<h3 class="header">Pass Rate for '{{ make }} {{ model }} {{ year }} model' is:</h3>
+	<h3 class="header">{{ rate }}%</h3>
+	<h3 class="header">{{ count_pass}} passes out of {{ count_pass+count_fail }} tests</h3>
+	<h3 class="header"><a href="/">Check pass rate for other models</a></h3>
+
+			
+
+{% endblock %}

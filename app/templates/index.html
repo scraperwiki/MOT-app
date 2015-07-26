@@ -3,6 +3,7 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     
     {% set title = 'ScraperWiki MOT Vehicle Fault Search' %}
+    
 
     <!-- Bootstrap -->
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -15,29 +16,63 @@
 
     {% block content %}
     <script>
-      //var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
-      global_cars = {};
-      $.getJSON( "/static/MakesAndModels.json", function( cars ){
-        global_cars = cars;
-        options = '';
-        var keys = Object.keys(cars);
+      
+      var makeText = '';
+      var modelText = '';
+
+      $(function(){
+        options = '<option>Select a car make</option>';
+        var keys = {{ make|safe }};
         keys.sort();
         $.each(keys, function(index, value){options += '<option value="'+ value +'">' + value + '</option>';})
-        $("#make").html(options);
-      })
-
-      function getModel()
-      {
-        options = "";
+        $("#make").html(options);          
+       });
+      
+      function getModel(e){        
+        options = '<option>Select model</option>';
         var e = document.getElementById("make");
-        var makeText = e.options[e.selectedIndex].text;
-        var model_keys = global_cars[makeText];
-        model_keys.sort();
-        $.each(model_keys, function(index, value){options += '<option value="'+ value +'">' + value + '</option>';})      
-        $("#model").html(options);        
-      }       
+        makeText = e.options[e.selectedIndex].text;        
+        $.ajax('/make',{
+          type: 'POST',
+          data: JSON.stringify({make: makeText}, null, '\t'),
+          contentType: 'application/json;charset=UTF-8',
+          success: function(result) {
+          var keys = $.parseJSON(result);
+          keys.sort();
+          $.each(keys, function(index, value){options += '<option value="'+ value +'">' + value + '</option>';})
+          $("#model").html(options);
+        }
+        });
+      }
 
+      function getYear(e){        
+        options = '<option>Select a year</option>';
+        var e = document.getElementById("model");
+        modelText = e.options[e.selectedIndex].text;        
+        $.ajax('/make/model',{
+          type: 'POST',
+          data: JSON.stringify({make: makeText, model: modelText}, null, '\t'),
+          contentType: 'application/json;charset=UTF-8',
+          success: function(result) {
+          var year_keys = $.parseJSON(result);
+          year_keys.sort();
+          $.each(year_keys, function(index, value){options += '<option value="'+ value +'">' + value + '</option>';})      
+          $("#year").html(options);
+        }
+        });
+      }
+
+      $(function(){
+        $('#make').change(getModel);
+      });
+
+      $(function(){
+        $('#model').change(getYear);
+      });      
+      
     </script>  
+
+
     <!-- BANNER -->
             <legend id="banner" class="advert" data-section="1">
                 <div class="banner-container">
@@ -56,12 +91,14 @@
     <!-- Car Make Selection -->
     <div class="indexbody">
     <div class="control-group">
-      <label id="maketext"class="control-label" for="car-make-input" style="font-size:20px">Which Vehicle <b>Make</b> do you want to know about?</label>
+      <label id="maketext"class="control-label" for="car-make-input" style="font-size:20px">Which vehicle <b>Make</b> do you want to know about?</label>
       <div class="controls">
         <div class="input-append">
           <!--<input id="car-make-input" name="car-make-input" class="input-xlarge" placeholder="e.g. Ford" type="text" required="">-->
           <div class="btn-group">
-            <select id="make" class="selectbasic" onchange="getModel()" name="make"></select>
+            <select id="make" class="selectbasic" name="make">
+              
+            </select>
           </div>
         </div>
       </div>
@@ -75,6 +112,19 @@
           <!--<input id="car-make-input" name="car-make-input" class="input-xlarge" placeholder="e.g. Fiesta" type="text" required="">-->
           <div class="btn-group">
             <select id="model" class="selectbasic" name="model"></select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Year first on road Selection -->
+    <div class="control-group">
+      <label class="control-label" for="car-model-input" style="font-size:20px">Filter by <b>Year</b> the car was first on the road (optional)</label>
+      <div class="controls">
+        <div class="input-append">
+          <!--<input id="car-make-input" name="car-make-input" class="input-xlarge" placeholder="e.g. Fiesta" type="text" required="">-->
+          <div class="btn-group">
+            <select id="year" class="selectbasic" name="year"></select>
           </div>
         </div>
       </div>

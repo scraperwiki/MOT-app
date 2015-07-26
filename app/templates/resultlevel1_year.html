@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% set title = 'Query Results' %}
+{% set index = 0 %}
+{% block content %}	
+
+	<script type="text/javascript">
+		
+		function showFoo(index) {
+			var row = document.getElementById(index);
+        	var cell = row.getElementsByTagName("td");
+        	var currentdescription = cell[0].innerText;
+  			window.location.href = '/{{ year }}/FAULTS/{{ make }}/{{ model }}/'+currentdescription;
+  			//document.getElementById("demo").innerHTML = String(currentdescription);
+		}
+		
+	</script>
+
+	<!--Test
+	<p id="demo">Test</p>
+	-->
+	<h3 class="header">Top 10 Fault Summary for '{{ make }} {{ model }}' {{ year }} model</h3>
+	<table cellspacing="50" class="tabledesc">
+		
+		<tr>
+		    <th class="header">Fault Top-Level description</th>
+		    <th class="header">Count of Vehicles with this Fault</th>
+		    <th class="header">Total Count</th>
+		    <th class="header">Percentage</th>	
+		    <th class="header">Learn More</th>	
+	    </tr>
+		
+		
+		{% for record, percentage in results.items() %}
+			<tr id="{{ index }}">
+				<td>				
+					<b>{{ record[0] }}</b>						
+				</td>
+				<td class="value-cell">
+				{{ record[1] }}
+				</td>
+				<td class="value-cell">
+				{{ total }}
+				</td>
+				<td class="value-cell">
+				{{ percentage }}%
+				</td>
+				<td>
+					<a href="#" onclick="showFoo({{ index }});">
+					<small>break this down</small>
+					</a>
+				</td>
+			</tr>
+			{% set index = index + 1 %}
+		{% endfor %}
+	</table>
+
+	<div class="graph">
+		{{ fig|safe}}
+	</div>
+	
+
+{% endblock %}

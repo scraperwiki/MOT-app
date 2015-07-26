@@ -8,7 +8,7 @@ def read(filename):
 # create an empty dictionary
 make_model_dictionary = {}
 
-for line in read("SummedDataLevel1.csv"):
+for line in read("WholeData.csv"):
 	model_set = set()
 	make = line[0].strip()[1:-1]
 	model = line[1].strip()[1:-1]

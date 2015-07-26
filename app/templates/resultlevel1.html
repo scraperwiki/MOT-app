@@ -1,61 +1,7 @@
 {% extends "base.html" %}
 {% set title = 'Query Results' %}
 {% set index = 0 %}
-{% block content %}
-
-	<style type="text/css">
-	
-	#nav, #nav ul {
-			padding: 0;
-			margin: 0;
-			list-style: none;
-		}
-
-		#nav a {
-			display: block;
-			width: 10em;
-		}
-
-		#nav li {
-			float: left;
-			width: 10em;
-		}
-
-		#nav li ul {
-			position: absolute;
-			width: 10em;
-			left: -999em;
-		}
-
-		#nav li:hover ul {
-			left: auto;
-		}
-
-		#nav li:hover ul, #nav li.sfhover ul {
-		left: auto;
-		}
-
-		#nav li ul ul {
-		margin: -1em 0 0 10em;
-		}
-
-		#nav, #nav ul {
-		padding: 0;
-		margin: 0;
-		list-style: none; 
-		line-height: 1;
-		}
-
-		#nav li:hover ul ul, #nav li.sfhover ul ul {
-		left: -999em;
-		}
-
-		#nav li:hover ul, #nav li li:hover ul, #nav li.sfhover ul, #nav li li.sfhover ul {
-		left: auto;
-		}
-
-	</style>
-	
+{% block content %}	
 
 	<script type="text/javascript">
 		
@@ -72,7 +18,7 @@
 	<!--Test
 	<p id="demo">Test</p>
 	-->
-	<h3 class="header">Top 10 Fault Summary for '{{ make }} {{ model }}'</h3>
+	<h3 class="header">Top 10 Fault Summary for '{{ make }} {{ model }}' across all models</h3>
 	<table cellspacing="50" class="tabledesc">
 		
 		<tr>
@@ -87,10 +33,10 @@
 		{% for record, percentage in results.items() %}
 			<tr id="{{ index }}">
 				<td>				
-					<b>{{ record.description }}</b>						
+					<b>{{ record[0] }}</b>						
 				</td>
 				<td class="value-cell">
-				{{ record.count }}
+				{{ record[1] }}
 				</td>
 				<td class="value-cell">
 				{{ total }}
@@ -108,6 +54,9 @@
 		{% endfor %}
 	</table>
 
+	<div class="graph">
+		{{ fig|safe}}
+	</div>
 	
 
 {% endblock %}

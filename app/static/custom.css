@@ -169,11 +169,15 @@ html, body {
     height: 100%;
 }
 .wrapper {
-    min-height: 40%;
+    min-height: 50%;
     height: auto;
     /*height: 100%;*/
     margin: 0 auto -20px; /* the bottom margin is the negative value of the footer's height */
 }
 .footer, .push {
     height: 20px; /* .push must be the same height as .footer */
+}
+
+.graph {
+	text-align: center;
 }

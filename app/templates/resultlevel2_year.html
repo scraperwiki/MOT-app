@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% set title = 'Second Order Query Results' %}
+{% block content %}
+
+	<!--Test
+	<p id="demo">Test</p>
+	-->
+	<h4 class="header">Fault BreakDown for the {{ total }} '{{ make }} {{ model }}' {{ year }} models with '{{ level1 }}' issues</h4>
+	<table cellspacing="50" class="tabledesc">
+		
+		<tr>
+		    <th class="header">Top-Level Description Selected</th>
+		    <th class="header">Fault Full Description</th>
+		    <th class="header">Count of Vehicles with this Description</th>		  	
+	    </tr>
+		
+		
+		{% for record in results %}
+			<tr id="{{ index }}">
+				<td>				
+					<b>{{ level1 }}</b>						
+				</td>
+				<td class="value-cell">
+				{{ record[0] + ' ' + record[1] }}
+				</td>
+				<td class="value-cell">
+				{{ record[-1] }} ({{ ((100*record[-1])/total)|round(1) }}%)
+				</td>				
+			</tr>			
+		{% endfor %}
+	</table>
+
+{% endblock %}

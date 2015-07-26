@@ -18,13 +18,13 @@
 		{% for record in results %}
 			<tr id="{{ index }}">
 				<td>				
-					<b>{{ record.level1 }}</b>						
+					<b>{{ level1 }}</b>						
 				</td>
 				<td class="value-cell">
-				{{ record.level2 + ' ' + record.level3 }}
+				{{ record[0] + ' ' + record[1] }}
 				</td>
 				<td class="value-cell">
-				{{ record.count }} ({{ ((100*record.count)/total)|round(1) }}%)
+				{{ record[-1] }} ({{ ((100*record[-1])/total)|round(1) }}%)
 				</td>				
 			</tr>			
 		{% endfor %}
