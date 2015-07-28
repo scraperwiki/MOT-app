@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-# imports
+######################### imports #############################################
 from flask import Flask, render_template, request, jsonify, redirect
 import csv
 import json
@@ -19,7 +19,7 @@ from mpld3 import fig_to_html
 app = Flask(__name__, static_url_path = "/static")
 data_dict = {}
 
-####### function to create the main dictionary ################################
+############# function to create the main dictionary ##########################
 def parse_file():
     data_dict_builder = {}
     global data_dict
@@ -132,37 +132,71 @@ def calculate_pass_rate_year(dictionary):
     rate = round((100*passes / total), 1)
     return (passes, fails, rate)
 
+# def extract_level1(dictionary):
+#     level1_dictionary_list = []
+#     for year, passfail_levels in dictionary.items():
+#         for passfail, levels in passfail_levels.items():
+#             if passfail == "F":
+#                 level1_dictionary_list.append(levels)
+
+
+#     # for i, dicto in enumerate(level1_dictionary_list):
+#     #     print(dicto.keys())
+#     return level1_dictionary_list
+
+
 def extract_level1(dictionary):
-    level1_dictionary_list = []
+    level1_dictionary = {}
     for year, passfail_levels in dictionary.items():
         for passfail, levels in passfail_levels.items():
             if passfail == "F":
-                level1_dictionary_list.append(levels)
+            	for level1, bigrecords in levels.items():
+            		running_total = level1_dictionary.get(level1, 0)
+            		failure_count = sum(bigrecord[-1] for bigrecord in bigrecords)
+            		level1_dictionary[level1] = running_total + failure_count 
+            	          
+            	
 
 
-    # for i, dicto in enumerate(level1_dictionary_list):
-    #     print(dicto.keys())
-    return level1_dictionary_list
+    #print(level1_dictionary)
+    return level1_dictionary
+
+# def iskeypresent(incoming_dict, present_dict):
+# 	keyispresent = True
+# 	for presentkey in present_dict:
+# 		for incomingkey in incoming_dict:
+# 			if incomingkey in presentkey:
+
 
 def extract_level1_year(dictionary):
-    level1_dictionary_list = []
+    level1_dictionary = {}
     for passfail, levels in dictionary.items():
         if passfail == "F":
-            level1_dictionary_list.append(levels)
+            for level1, bigrecords in levels.items():
+            	running_total = level1_dictionary.get(level1, 0)
+            	failure_count = sum(bigrecord[-1] for bigrecord in bigrecords)
+            	level1_dictionary[level1] = running_total + failure_count
 
 
     # for i, dicto in enumerate(level1_dictionary_list):
     #     print(dicto.keys())
-    return level1_dictionary_list
+    return level1_dictionary
 
-def analyse_level1(dictionary_list):
+# def analyse_level1(dictionary_list):
+#     tuple_list = []
+#     for dictionary in dictionary_list:        
+#         for level1, list_of_tuples in dictionary.items():
+#             sum_of_counts = 0
+#             for eachtuple in list_of_tuples:
+#                 sum_of_counts += eachtuple[-1]
+#             tuple_list.append((level1, sum_of_counts))
+
+#     return tuple_list
+
+def analyse_level1(dictionary):
     tuple_list = []
-    for dictionary in dictionary_list:        
-        for level1, list_of_tuples in dictionary.items():
-            sum_of_counts = 0
-            for eachtuple in list_of_tuples:
-                sum_of_counts += eachtuple[-1]
-            tuple_list.append((level1, sum_of_counts))
+    for level1, count in dictionary.items():
+    	tuple_list.append((level1, count))
 
     return tuple_list
 
@@ -174,18 +208,35 @@ def select_level2(make, model, level1, year=None):
     else:
         return data_dict[make][model][year]["F"][level1]
 
+# def analyse_level2(mylevel1, dictionary):
+#     tuple_list = []
+#     for year, passfail_levels in dictionary.items():
+#         for passfail, levels in passfail_levels.items():
+#             if passfail == "F":
+#                 for level1, bigrecords in levels.items():
+#                     if level1 == mylevel1:
+#                         for bigrecord in bigrecords:
+#                             tuple_list.append(bigrecord)
+    
+    
+#     return tuple_list
+
 def analyse_level2(mylevel1, dictionary):
-    tuple_list = []
+    level2_dict = {}
     for year, passfail_levels in dictionary.items():
         for passfail, levels in passfail_levels.items():
             if passfail == "F":
                 for level1, bigrecords in levels.items():
                     if level1 == mylevel1:
                         for bigrecord in bigrecords:
-                            tuple_list.append(bigrecord)
+                            desc = bigrecord[0] + ' ' + bigrecord[1]
+                            running_total = level2_dict.get(desc, 0)
+                            level2_dict[desc] = running_total + bigrecord[-1]
+
     
     
-    return tuple_list
+    #print(level2_dict)
+    return level2_dict
 
 ################################# graphing ####################################
 def create_graph(x, y):
@@ -265,7 +316,7 @@ def visit_vehicle_level1(make, model):
     level1 = extract_level1(select_make_model(make, model))
     level1_tuples = analyse_level1(level1)
     sorted_tuples = sort_by_count(level1_tuples)
-    sum_of_counts = get_total_count(level1)
+    sum_of_counts = get_total_count_tuple(level1_tuples)
     
     # create dictionary to hold percentages
     results_dictionary = OrderedDict()
@@ -289,7 +340,7 @@ def visit_vehicle_level1_byyear(make, model, year):
     level1 = extract_level1_year(select_make_model(make, model, year))
     level1_tuples = analyse_level1(level1)
     sorted_tuples = sort_by_count(level1_tuples)
-    sum_of_counts = get_total_count(level1)
+    sum_of_counts = get_total_count_tuple(level1_tuples)
     
     # create dictionary to hold percentages
     results_dictionary = OrderedDict()
@@ -308,7 +359,7 @@ def visit_vehicle_level1_byyear(make, model, year):
 
 @app.route('/FAULTS/<make>/<model>/<level1>')
 def visit_vehicle_level2(make, model, level1):
-    level2_tuples = select_level2(make, model, level1)
+    level2_tuples = analyse_level1(select_level2(make, model, level1)) 
     #print("level 2: "+repr(level2_tuples))    
     sorted_tuples = sort_by_count(level2_tuples)
     sum_of_counts = get_total_count_tuple(level2_tuples)
