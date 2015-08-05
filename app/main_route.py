@@ -18,8 +18,9 @@ from mpld3 import fig_to_html
 # global variables
 app = Flask(__name__, static_url_path = "/static")
 data_dict = {}
+data_dict_rates = {}
 
-############# function to create the main dictionary ##########################
+############# functions to create the main dictionaries ##########################
 def parse_file():
     data_dict_builder = {}
     global data_dict
@@ -31,7 +32,7 @@ def parse_file():
         return Bigrecord(make, model, year, testresult, level1, level2, level3,
          int(modelcount))
 
-    with open("static/WholeData.csv") as fd:
+    with open("static/WholeDataFaults.csv") as fd:
         records = list(csv.reader(fd))
         records = records[1:]
         records = [make_record_level2(r) for r in records]
@@ -50,7 +51,27 @@ def parse_file():
 
     data_dict = data_dict_builder
 
-    return data_dict_builder
+def parse_file_rates():
+    data_dict_builder = {}
+    global data_dict_rates
+    Bigrecord = namedtuple("Bigrecord", 
+        "make model year testresult modelcount")
+    def make_record(line):
+        (make, model, year, testresult, modelcount) = line
+        return Bigrecord(make, model, year, testresult, int(modelcount))
+
+    with open("static/WholeDataRates.csv") as fd:
+        records = list(csv.reader(fd))
+        records = records[1:]
+        records = [make_record(r) for r in records]
+
+    for r in records:
+        data_dict_builder.setdefault(r.make, {}).setdefault(r.model, 
+            {}).setdefault(r.year, {})[r.testresult] = r.modelcount
+                   
+
+    data_dict_rates = data_dict_builder
+    
 
 ######################### utility functions ###################################
 
@@ -95,6 +116,54 @@ def create_make_count():
     print(sorted_x)
     return make_dict
 
+######################### pass rate functions ##################################
+def select_make_model_rate(make, model, year=None):
+    if year is None:
+        return data_dict_rate[make][model]
+    else:
+        return data_dict_rate[make][model][year]
+
+def calculate_pass_rate_year(dictionary):
+    # passfail_counts = {"P": 0, "F": 0}
+    # for passfail, levels in dictionary.items():
+    #     for level1, bigrecords in levels.items():
+    #         for bigrecord in bigrecords:
+    #             if passfail not in passfail_counts:
+    #                 passfail_counts[passfail] = 0
+    #             passfail_counts[passfail] += bigrecord[-1]
+    
+    # passes, fails = passfail_counts["P"], passfail_counts["F"]
+    # total = passes + fails
+    # rate = round((100*passes / total), 1)
+
+    passes, fails = dictionary["P"], dictionary["F"]
+    total = passes + fails
+    rate = round((100*passes / total), 1)
+    return (passes, fails, rate)
+
+def calculate_pass_rate_all(dictionary):
+    passfail_counts = {"P": 0, "F": 0}
+    # for year, passfail_levels in dictionary.items():
+    #     for passfail, levels in passfail_levels.items():
+    #         for level1, bigrecords in levels.items():
+    #             for bigrecord in bigrecords:
+    #                 if passfail not in passfail_counts:
+    #                    passfail_counts[passfail] = 0
+    #                 passfail_counts[passfail] += bigrecord[-1]
+    
+    # passes, fails = passfail_counts["P"], passfail_counts["F"]
+    # total = passes + fails
+    # rate = round((100*passes / total), 1)
+    for year, passfail in dictionary.items():
+        passfail_counts["P"] += passfail["P"]
+        passfail_counts["F"] += passfail["F"]
+
+    passes, fails = passfail_counts["P"], passfail_counts["F"]
+    total = passes + fails
+    rate = round((100*passes / total), 1)
+
+    return (passes, fails, rate)
+
 ######################### level 1 functions ##################################
 def select_make_model(make, model, year=None):
     if year is None:
@@ -103,34 +172,12 @@ def select_make_model(make, model, year=None):
         return data_dict[make][model][year]
 
 
-def calculate_pass_rate_all(dictionary):    
-    passfail_counts = {"P": 0, "F": 0}
-    for year, passfail_levels in dictionary.items():
-        for passfail, levels in passfail_levels.items():
-            for level1, bigrecords in levels.items():
-                for bigrecord in bigrecords:
-                    if passfail not in passfail_counts:
-                       passfail_counts[passfail] = 0
-                    passfail_counts[passfail] += bigrecord[-1]
-    
-    passes, fails = passfail_counts["P"], passfail_counts["F"]
-    total = passes + fails
-    rate = round((100*passes / total), 1)
-    return (passes, fails, rate)
 
-def calculate_pass_rate_year(dictionary):
-    passfail_counts = {"P": 0, "F": 0}
-    for passfail, levels in dictionary.items():
-        for level1, bigrecords in levels.items():
-            for bigrecord in bigrecords:
-                if passfail not in passfail_counts:
-                    passfail_counts[passfail] = 0
-                passfail_counts[passfail] += bigrecord[-1]
-    
-    passes, fails = passfail_counts["P"], passfail_counts["F"]
-    total = passes + fails
-    rate = round((100*passes / total), 1)
-    return (passes, fails, rate)
+
+
+
+
+
 
 # def extract_level1(dictionary):
 #     level1_dictionary_list = []
@@ -258,7 +305,7 @@ def create_graph(x, y):
 @app.route('/make', methods=['GET', 'POST'])
 def getModel(): 
     make = request.json['make']
-    models = list(data_dict[make].keys()) 
+    models = list(data_dict_rates[make].keys()) 
     models = json.dumps(models)  
     return models
 
@@ -266,7 +313,7 @@ def getModel():
 def getYear(): 
     make = request.json['make']
     model = request.json['model']
-    years = list(data_dict[make][model].keys()) 
+    years = list(data_dict_rates[make][model].keys()) 
     years = json.dumps(years)  
     return years
 
@@ -274,7 +321,7 @@ def getYear():
 
 @app.route('/')
 def index():
-    makes = list(data_dict.keys())    
+    makes = list(data_dict_rates.keys())    
     return render_template("index.html", make=makes)
 
 @app.route('/', methods=['POST'])
@@ -295,19 +342,35 @@ def navigate():
             return redirect("/PASS/{}/{}/{}".format(request.form['make'], 
                 request.form['model'], request.form['year']))
 
+######################### pass navigations ##################################
+
 @app.route('/PASS/<make>/<model>')
+# def pass_vehicle_allyears(make, model):    
+#     passes, fails, rate = calculate_pass_rate_all(
+#         select_make_model(make, model))     
+#     return render_template("passrate.html", make=make, model=model, 
+#         count_fail=fails, count_pass=passes, rate=rate)
+
 def pass_vehicle_allyears(make, model):    
     passes, fails, rate = calculate_pass_rate_all(
-        select_make_model(make, model))     
+        select_make_model_rate(make, model))     
     return render_template("passrate.html", make=make, model=model, 
         count_fail=fails, count_pass=passes, rate=rate)
 
 @app.route('/PASS/<make>/<model>/<year>')
+# def pass_vehicle_byyear(make, model, year):    
+#     passes, fails, rate = calculate_pass_rate_year(
+#         select_make_model(make, model, year))
+#     return render_template("passrateyear.html", make=make, model=model, 
+#         year=year, count_fail=fails, count_pass=passes, rate=rate)
+
 def pass_vehicle_byyear(make, model, year):    
     passes, fails, rate = calculate_pass_rate_year(
-        select_make_model(make, model, year))
+        select_make_model_rate(make, model, year))
     return render_template("passrateyear.html", make=make, model=model, 
         year=year, count_fail=fails, count_pass=passes, rate=rate)
+
+######################### faults navigations #############################
 
 
 @app.route('/FAULTS/<make>/<model>')
@@ -376,5 +439,6 @@ def visit_vehicle_level2_byyear(make, model, level1, year):
 
 ########################### run the app #######################################
 if __name__ == '__main__':
-    parse_file()    
+    parse_file()
+    parse_file_rates()
     app.run(debug = True)
