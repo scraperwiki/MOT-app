@@ -3,17 +3,7 @@
 {% set index = 0 %}
 {% block content %}	
 
-	<script type="text/javascript">
-		
-		function showFoo(index) {
-			var row = document.getElementById(index);
-        	var cell = row.getElementsByTagName("td");
-        	var currentdescription = cell[0].innerText;
-  			window.location.href = '/{{ year }}/FAULTS/{{ make }}/{{ model }}/'+currentdescription;
-  			//document.getElementById("demo").innerHTML = String(currentdescription);
-		}
-		
-	</script>
+	
 
 	<!--Test
 	<p id="demo">Test</p>
@@ -45,7 +35,7 @@
 				{{ percentage }}%
 				</td>
 				<td>
-					<a href="#" onclick="showFoo({{ index }});">
+					<a href='/{{ year }}/FAULTS/{{ make }}/{{ model }}/{{ record[0] }}'>
 					<small>break this down</small>
 					</a>
 				</td>

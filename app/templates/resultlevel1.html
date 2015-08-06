@@ -9,7 +9,8 @@
 			var row = document.getElementById(index);
         	var cell = row.getElementsByTagName("td");
         	var currentdescription = cell[0].innerText;
-  			window.location.href = '/FAULTS/{{ make }}/{{ model }}/'+currentdescription;
+        	window.alert(len(cell), currentdescription);
+  			//window.location.href = '/FAULTS/{{ make }}/{{ model }}/'+currentdescription;
   			//document.getElementById("demo").innerHTML = String(currentdescription);
 		}
 		

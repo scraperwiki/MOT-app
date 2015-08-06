@@ -304,14 +304,17 @@ def visit_vehicle_level1(make, model):
         
     # create dictionary to hold percentages
     results_dictionary = OrderedDict()
-    for result in sorted_tuples[:10]:
-        results_dictionary[result] = get_percentage(result, sum_of_counts)
+    for result in sorted_tuples:
+        if result[0] != '':
+            results_dictionary[result] = get_percentage(result, sum_of_counts)
+        if len(results_dictionary) ==  10:
+            break
 
     # array of descriptions
-    y = [r[0] for r in sorted_tuples[:10]]
+    y = results_dictionary.keys()
 
     # array of counts
-    x = [results_dictionary[r] for r in sorted_tuples[:10]]    
+    x = results_dictionary.values()
 
     fig = create_graph(x, y)        
     
@@ -328,13 +331,17 @@ def visit_vehicle_level1_byyear(make, model, year):
     
     # create dictionary to hold percentages
     results_dictionary = OrderedDict()
-    for result in sorted_tuples[:10]:
-        results_dictionary[result] = get_percentage(result, sum_of_counts)
+    for result in sorted_tuples:
+        if result[0] != '':
+            results_dictionary[result] = get_percentage(result, sum_of_counts)
+        if len(results_dictionary) ==  10:
+            break
 
     # array of descriptions
-    y = [r[0] for r in sorted_tuples[:10]]
+    y = results_dictionary.keys()
+
     # array of counts
-    x = [results_dictionary[r] for r in sorted_tuples[:10]]    
+    x = results_dictionary.values()    
 
     fig = create_graph(x, y)        
     
