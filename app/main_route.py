@@ -2,11 +2,13 @@
 # encoding: utf-8
 
 ######################### imports #############################################
+from __future__ import division
 from flask import Flask, render_template, request, jsonify, redirect
 import csv
 import json
 from collections import namedtuple, OrderedDict
 import operator
+
 
 # imports for plots
 import matplotlib.pyplot as plt; plt.rcdefaults()
@@ -25,22 +27,22 @@ def parse_file():
     data_dict_builder = {}
     global data_dict
     Bigrecord = namedtuple("Bigrecord", 
-        "make model year testresult level1 level2 level3 modelcount")
+        "make model year level1 level2 level3 modelcount")
     def make_record_level2(line):
-        (make, model, year, testresult, 
+        (make, model, year,  
             level1, level2, level3, modelcount) = line
-        return Bigrecord(make, model, year, testresult, level1, level2, level3,
+        return Bigrecord(make, model, year, level1, level2, level3,
          int(modelcount))
 
-    with open("static/WholeDataFaults.csv") as fd:
-        records = list(csv.reader(fd))
+    with open("static/WholeDataFaults1.txt") as fd:
+        records = list(csv.reader(fd, delimiter = '|'))
         records = records[1:]
         records = [make_record_level2(r) for r in records]
 
     for r in records:
         data_dict_builder.setdefault(r.make, {}).setdefault(r.model, 
-            {}).setdefault(r.year, {}).setdefault(r.testresult, 
-            {}).setdefault(r.level1, []).append((r.level2, r.level3, r.modelcount))
+            {}).setdefault(r.year, {}).setdefault(r.level1, 
+            []).append((r.level2, r.level3, r.modelcount))
         
         # makes = data_dict_builder.setdefault(r.make, {})
         # models = makes.setdefault(r.model, {})
@@ -99,7 +101,7 @@ def get_percentage(record, sum_of_counts):
     
     percentage = record[-1]/sum_of_counts
     percentage = round(100*percentage, 1)
-
+    
     return percentage
 
 # check the counts for the different makes in the data
@@ -119,44 +121,23 @@ def create_make_count():
 ######################### pass rate functions ##################################
 def select_make_model_rate(make, model, year=None):
     if year is None:
-        return data_dict_rate[make][model]
+        return data_dict_rates[make][model]
     else:
-        return data_dict_rate[make][model][year]
+        return data_dict_rates[make][model][year]
 
 def calculate_pass_rate_year(dictionary):
-    # passfail_counts = {"P": 0, "F": 0}
-    # for passfail, levels in dictionary.items():
-    #     for level1, bigrecords in levels.items():
-    #         for bigrecord in bigrecords:
-    #             if passfail not in passfail_counts:
-    #                 passfail_counts[passfail] = 0
-    #             passfail_counts[passfail] += bigrecord[-1]
     
-    # passes, fails = passfail_counts["P"], passfail_counts["F"]
-    # total = passes + fails
-    # rate = round((100*passes / total), 1)
-
-    passes, fails = dictionary["P"], dictionary["F"]
+    passes, fails = dictionary.get("P", 0), dictionary.get("F", 0)
     total = passes + fails
     rate = round((100*passes / total), 1)
     return (passes, fails, rate)
 
 def calculate_pass_rate_all(dictionary):
     passfail_counts = {"P": 0, "F": 0}
-    # for year, passfail_levels in dictionary.items():
-    #     for passfail, levels in passfail_levels.items():
-    #         for level1, bigrecords in levels.items():
-    #             for bigrecord in bigrecords:
-    #                 if passfail not in passfail_counts:
-    #                    passfail_counts[passfail] = 0
-    #                 passfail_counts[passfail] += bigrecord[-1]
     
-    # passes, fails = passfail_counts["P"], passfail_counts["F"]
-    # total = passes + fails
-    # rate = round((100*passes / total), 1)
     for year, passfail in dictionary.items():
-        passfail_counts["P"] += passfail["P"]
-        passfail_counts["F"] += passfail["F"]
+        passfail_counts["P"] += passfail.get("P", 0)
+        passfail_counts["F"] += passfail.get("F", 0)
 
     passes, fails = passfail_counts["P"], passfail_counts["F"]
     total = passes + fails
@@ -169,76 +150,29 @@ def select_make_model(make, model, year=None):
     if year is None:
         return data_dict[make][model]
     else:
-        return data_dict[make][model][year]
-
-
-
-
-
-
-
-
-
-# def extract_level1(dictionary):
-#     level1_dictionary_list = []
-#     for year, passfail_levels in dictionary.items():
-#         for passfail, levels in passfail_levels.items():
-#             if passfail == "F":
-#                 level1_dictionary_list.append(levels)
-
-
-#     # for i, dicto in enumerate(level1_dictionary_list):
-#     #     print(dicto.keys())
-#     return level1_dictionary_list
+        return data_dict[make][model].get(year, {})
 
 
 def extract_level1(dictionary):
     level1_dictionary = {}
-    for year, passfail_levels in dictionary.items():
-        for passfail, levels in passfail_levels.items():
-            if passfail == "F":
-            	for level1, bigrecords in levels.items():
-            		running_total = level1_dictionary.get(level1, 0)
-            		failure_count = sum(bigrecord[-1] for bigrecord in bigrecords)
-            		level1_dictionary[level1] = running_total + failure_count 
-            	          
-            	
-
-
-    #print(level1_dictionary)
+    for year, levels in dictionary.items():
+        for level1, bigrecords in levels.items():
+        	running_total = level1_dictionary.get(level1, 0)
+        	failure_count = sum(bigrecord[-1] for bigrecord in bigrecords)
+        	level1_dictionary[level1] = running_total + failure_count 
+    
     return level1_dictionary
-
-# def iskeypresent(incoming_dict, present_dict):
-# 	keyispresent = True
-# 	for presentkey in present_dict:
-# 		for incomingkey in incoming_dict:
-# 			if incomingkey in presentkey:
 
 
 def extract_level1_year(dictionary):
     level1_dictionary = {}
-    for passfail, levels in dictionary.items():
-        if passfail == "F":
-            for level1, bigrecords in levels.items():
-            	running_total = level1_dictionary.get(level1, 0)
-            	failure_count = sum(bigrecord[-1] for bigrecord in bigrecords)
-            	level1_dictionary[level1] = running_total + failure_count
+    for level1, bigrecords in dictionary.items():
+       	running_total = level1_dictionary.get(level1, 0)
+       	failure_count = sum(bigrecord[-1] for bigrecord in bigrecords)
+       	level1_dictionary[level1] = running_total + failure_count
 
-
-    # for i, dicto in enumerate(level1_dictionary_list):
-    #     print(dicto.keys())
     return level1_dictionary
 
-# def analyse_level1(dictionary_list):
-#     tuple_list = []
-#     for dictionary in dictionary_list:        
-#         for level1, list_of_tuples in dictionary.items():
-#             sum_of_counts = 0
-#             for eachtuple in list_of_tuples:
-#                 sum_of_counts += eachtuple[-1]
-#             tuple_list.append((level1, sum_of_counts))
-
-#     return tuple_list
 
 def analyse_level1(dictionary):
     tuple_list = []
@@ -253,7 +187,7 @@ def select_level2(make, model, level1, year=None):
         d = data_dict[make][model]
         return analyse_level2(level1, d)
     else:
-        return data_dict[make][model][year]["F"][level1]
+        return data_dict[make][model][year][level1]
 
 # def analyse_level2(mylevel1, dictionary):
 #     tuple_list = []
@@ -345,12 +279,6 @@ def navigate():
 ######################### pass navigations ##################################
 
 @app.route('/PASS/<make>/<model>')
-# def pass_vehicle_allyears(make, model):    
-#     passes, fails, rate = calculate_pass_rate_all(
-#         select_make_model(make, model))     
-#     return render_template("passrate.html", make=make, model=model, 
-#         count_fail=fails, count_pass=passes, rate=rate)
-
 def pass_vehicle_allyears(make, model):    
     passes, fails, rate = calculate_pass_rate_all(
         select_make_model_rate(make, model))     
@@ -358,12 +286,6 @@ def pass_vehicle_allyears(make, model):
         count_fail=fails, count_pass=passes, rate=rate)
 
 @app.route('/PASS/<make>/<model>/<year>')
-# def pass_vehicle_byyear(make, model, year):    
-#     passes, fails, rate = calculate_pass_rate_year(
-#         select_make_model(make, model, year))
-#     return render_template("passrateyear.html", make=make, model=model, 
-#         year=year, count_fail=fails, count_pass=passes, rate=rate)
-
 def pass_vehicle_byyear(make, model, year):    
     passes, fails, rate = calculate_pass_rate_year(
         select_make_model_rate(make, model, year))
@@ -372,15 +294,14 @@ def pass_vehicle_byyear(make, model, year):
 
 ######################### faults navigations #############################
 
-
 @app.route('/FAULTS/<make>/<model>')
 def visit_vehicle_level1(make, model):
     """obtain the values chosen by the user for make and model..."""
     level1 = extract_level1(select_make_model(make, model))
-    level1_tuples = analyse_level1(level1)
+    level1_tuples = analyse_level1(level1)    
     sorted_tuples = sort_by_count(level1_tuples)
     sum_of_counts = get_total_count_tuple(level1_tuples)
-    
+        
     # create dictionary to hold percentages
     results_dictionary = OrderedDict()
     for result in sorted_tuples[:10]:
@@ -422,6 +343,7 @@ def visit_vehicle_level1_byyear(make, model, year):
 
 @app.route('/FAULTS/<make>/<model>/<level1>')
 def visit_vehicle_level2(make, model, level1):
+    print(data_dict)
     level2_tuples = analyse_level1(select_level2(make, model, level1)) 
     #print("level 2: "+repr(level2_tuples))    
     sorted_tuples = sort_by_count(level2_tuples)
