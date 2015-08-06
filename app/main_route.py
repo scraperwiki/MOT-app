@@ -8,14 +8,10 @@ import csv
 import json
 from collections import namedtuple, OrderedDict
 import operator
+import utilities
 
 
-# imports for plots
-import matplotlib.pyplot as plt; plt.rcdefaults()
-import numpy as np
-import matplotlib.pyplot as plt
-import pylab as pl
-from mpld3 import fig_to_html
+
 
 # global variables
 app = Flask(__name__, static_url_path = "/static")
@@ -77,11 +73,9 @@ def parse_file_rates():
 
 ######################### utility functions ###################################
 
-def key(r):
-    return r[-1]
 
-def sort_by_count(r):         
-    return sorted(r, key=key, reverse=True)
+
+
 
 def get_total_count(dictionary_list):
     sum = 0
@@ -91,18 +85,9 @@ def get_total_count(dictionary_list):
                 sum += eachtuple[-1]
     return sum
 
-def get_total_count_tuple(tuple_list):
-    sum = 0
-    for eachtuple in tuple_list:
-        sum += eachtuple[-1]
-    return sum
 
-def get_percentage(record, sum_of_counts):
-    
-    percentage = record[-1]/sum_of_counts
-    percentage = round(100*percentage, 1)
-    
-    return percentage
+
+
 
 # check the counts for the different makes in the data
 def create_make_count():
@@ -220,19 +205,7 @@ def analyse_level2(mylevel1, dictionary):
     return level2_dict
 
 ################################# graphing ####################################
-def create_graph(x, y):
-    x.reverse()
-    y.reverse()
-    fig = plt.figure()
 
-    width = .75
-    ind = np.arange(len(x))
-    plt.barh(ind, x)
-    plt.yticks(ind + width / 2, y)
-    fig.tight_layout()
-
-    figure_html=fig_to_html(fig)
-    return figure_html
 
 
 ################### computational app routing #################################
@@ -299,25 +272,8 @@ def visit_vehicle_level1(make, model):
     """obtain the values chosen by the user for make and model..."""
     level1 = extract_level1(select_make_model(make, model))
     level1_tuples = analyse_level1(level1)    
-    sorted_tuples = sort_by_count(level1_tuples)
-    sum_of_counts = get_total_count_tuple(level1_tuples)
-        
-    # create dictionary to hold percentages
-    results_dictionary = OrderedDict()
-    for result in sorted_tuples:
-        if result[0] != '':
-            results_dictionary[result] = get_percentage(result, sum_of_counts)
-        if len(results_dictionary) ==  10:
-            break
-
-    # array of descriptions
-    y = results_dictionary.keys()
-
-    # array of counts
-    x = results_dictionary.values()
-
-    fig = create_graph(x, y)        
-    
+    results_dictionary, sum_of_counts = utilities.create_results_dictionary(level1_tuples)
+    fig = utilities.results_graph(results_dictionary)
     return render_template('resultlevel1.html', results=results_dictionary, 
         make=make, model=model, total=sum_of_counts, fig=fig)
 
@@ -326,29 +282,13 @@ def visit_vehicle_level1_byyear(make, model, year):
     """obtain the values chosen by the user for make and model..."""
     level1 = extract_level1_year(select_make_model(make, model, year))
     level1_tuples = analyse_level1(level1)
-    sorted_tuples = sort_by_count(level1_tuples)
-    sum_of_counts = get_total_count_tuple(level1_tuples)
-    
-    # create dictionary to hold percentages
-    results_dictionary = OrderedDict()
-    for result in sorted_tuples:
-        if result[0] != '':
-            results_dictionary[result] = get_percentage(result, sum_of_counts)
-        if len(results_dictionary) ==  10:
-            break
-
-    # array of descriptions
-    y = results_dictionary.keys()
-
-    # array of counts
-    x = results_dictionary.values()    
-
-    fig = create_graph(x, y)        
+    results_dictionary, sum_of_counts = utilities.create_results_dictionary(level1_tuples)
+    fig = utilities.results_graph(results_dictionary)
     
     return render_template('resultlevel1_year.html', results=results_dictionary, 
         make=make, model=model, year=year, total=sum_of_counts, fig=fig)
 
-@app.route('/FAULTS/<make>/<model>/<level1>')
+"""@app.route('/FAULTS/<make>/<model>/<level1>')
 def visit_vehicle_level2(make, model, level1):
     print(data_dict)
     level2_tuples = analyse_level1(select_level2(make, model, level1)) 
@@ -365,7 +305,7 @@ def visit_vehicle_level2_byyear(make, model, level1, year):
     sum_of_counts = get_total_count_tuple(level2_tuples)
     return render_template('resultlevel2_year.html', results=sorted_tuples, 
         make=make, model=model, level1=level1, year=year, total=sum_of_counts)
-
+"""
 ########################### run the app #######################################
 if __name__ == '__main__':
     parse_file()

@@ -2,3 +2,4 @@
 WholeDataFaults1.txt
 WholeDataFaults.txt
 WholeDataRates.csv
+*.pyc
