@@ -310,4 +310,4 @@ def visit_vehicle_level2_byyear(make, model, level1, year):
 if __name__ == '__main__':
     parse_file()
     parse_file_rates()
-    app.run(debug = True)
+    app.run(host='0.0.0.0', debug=True)
