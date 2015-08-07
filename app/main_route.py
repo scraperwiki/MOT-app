@@ -267,8 +267,8 @@ def visit_vehicle_level2(make, model, level1):
 
     results_dictionary, sum_of_counts = utilities.create_results_dictionary(level2_tuples)
 
-    #fig = utilities.results_graph(results_dictionary)
-    fig = ''
+    fig = utilities.results_graph(results_dictionary)
+    #fig = ''
 
 
     

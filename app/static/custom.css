@@ -173,7 +173,7 @@ html, body {
     height: 100%;
 }
 .wrapper {
-    min-height: 50%;
+    min-height: 55%;
     height: auto;
     /*height: 100%;*/
     margin: 0 auto -20px; /* the bottom margin is the negative value of the footer's height */

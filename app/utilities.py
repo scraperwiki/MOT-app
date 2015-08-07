@@ -38,7 +38,8 @@ def create_graph(x, y):
     plt.barh(ind, x)
     plt.yticks(ind + width / 2)
     ax = plt.gca()
-    ax.set_yticklabels(y)
+    import textwrap
+    ax.set_yticklabels([textwrap.fill(i, 25) for i in y])
     fig.tight_layout()
 
     figure_html=fig_to_html(fig)
