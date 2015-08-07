@@ -40,14 +40,7 @@ def parse_file():
             {}).setdefault(r.year, {}).setdefault(r.level1, 
             []).append((r.level2, r.level3, r.modelcount))
         
-        # makes = data_dict_builder.setdefault(r.make, {})
-        # models = makes.setdefault(r.model, {})
-        # years = models.setdefault(r.year, {})
-        # testresults = years.setdefault(r.testresult, {})
-        # level1 = years.setdefault(r.level1, [])        
-        # level1.append((r.level2, r.level3, r.modelcount))
-
-    data_dict = data_dict_builder
+        data_dict = data_dict_builder
 
 def parse_file_rates():
     data_dict_builder = {}
@@ -73,10 +66,6 @@ def parse_file_rates():
 
 ######################### utility functions ###################################
 
-
-
-
-
 def get_total_count(dictionary_list):
     sum = 0
     for dictionary in dictionary_list:
@@ -84,10 +73,6 @@ def get_total_count(dictionary_list):
             for eachtuple in list_of_tuples:
                 sum += eachtuple[-1]
     return sum
-
-
-
-
 
 # check the counts for the different makes in the data
 def create_make_count():
@@ -174,30 +159,15 @@ def select_level2(make, model, level1, year=None):
     else:
         return data_dict[make][model][year][level1]
 
-# def analyse_level2(mylevel1, dictionary):
-#     tuple_list = []
-#     for year, passfail_levels in dictionary.items():
-#         for passfail, levels in passfail_levels.items():
-#             if passfail == "F":
-#                 for level1, bigrecords in levels.items():
-#                     if level1 == mylevel1:
-#                         for bigrecord in bigrecords:
-#                             tuple_list.append(bigrecord)
-    
-    
-#     return tuple_list
-
 def analyse_level2(mylevel1, dictionary):
     level2_dict = {}
-    for year, passfail_levels in dictionary.items():
-        for passfail, levels in passfail_levels.items():
-            if passfail == "F":
-                for level1, bigrecords in levels.items():
-                    if level1 == mylevel1:
-                        for bigrecord in bigrecords:
-                            desc = bigrecord[0] + ' ' + bigrecord[1]
-                            running_total = level2_dict.get(desc, 0)
-                            level2_dict[desc] = running_total + bigrecord[-1]
+    for year, levels in dictionary.items():
+        for level1, bigrecords in levels.items():
+            if level1 == mylevel1:
+                for bigrecord in bigrecords:
+                    desc = bigrecord[0] + ' ' + bigrecord[1]
+                    running_total = level2_dict.get(desc, 0)
+                    level2_dict[desc] = running_total + bigrecord[-1]
 
     
     
@@ -281,31 +251,54 @@ def visit_vehicle_level1(make, model):
 def visit_vehicle_level1_byyear(make, model, year):
     """obtain the values chosen by the user for make and model..."""
     level1 = extract_level1_year(select_make_model(make, model, year))
+    #print(level1)
     level1_tuples = analyse_level1(level1)
+    print(level1_tuples)
     results_dictionary, sum_of_counts = utilities.create_results_dictionary(level1_tuples)
     fig = utilities.results_graph(results_dictionary)
     
     return render_template('resultlevel1_year.html', results=results_dictionary, 
         make=make, model=model, year=year, total=sum_of_counts, fig=fig)
 
-"""@app.route('/FAULTS/<make>/<model>/<level1>')
+@app.route('/FAULTS/<make>/<model>/<level1>')
 def visit_vehicle_level2(make, model, level1):
-    print(data_dict)
+    #print(data_dict)
     level2_tuples = analyse_level1(select_level2(make, model, level1)) 
+
+    results_dictionary, sum_of_counts = utilities.create_results_dictionary(level2_tuples)
+
+    #fig = utilities.results_graph(results_dictionary)
+    fig = ''
+
+
+    
+    return render_template('resultlevel1_year.html', results=results_dictionary, 
+        make=make, model=model, total=sum_of_counts, fig=fig)
     #print("level 2: "+repr(level2_tuples))    
-    sorted_tuples = sort_by_count(level2_tuples)
-    sum_of_counts = get_total_count_tuple(level2_tuples)
-    return render_template('resultlevel2.html', results=sorted_tuples, 
-        make=make, model=model, level1=level1, total=sum_of_counts)
+    # sorted_tuples = sort_by_count(level2_tuples)
+    # sum_of_counts = get_total_count_tuple(level2_tuples)
+    # return render_template('resultlevel2.html', results=sorted_tuples, 
+    #     make=make, model=model, level1=level1, total=sum_of_counts)
+
+
 
 @app.route('/<year>/FAULTS/<make>/<model>/<level1>')
 def visit_vehicle_level2_byyear(make, model, level1, year):
     level2_tuples = select_level2(make, model, level1, year)
-    sorted_tuples = sort_by_count(level2_tuples)
-    sum_of_counts = get_total_count_tuple(level2_tuples)
-    return render_template('resultlevel2_year.html', results=sorted_tuples, 
-        make=make, model=model, level1=level1, year=year, total=sum_of_counts)
-"""
+    print(level2_tuples)
+    results_dictionary, sum_of_counts = utilities.create_results_dictionary(level2_tuples)
+
+    fig = utilities.results_graph(results_dictionary)
+    
+    return render_template('resultlevel1_year.html', results=results_dictionary, 
+        make=make, model=model, year=year, total=sum_of_counts, fig=fig)
+    
+
+    #sorted_tuples = utilities.sort_by_count(level2_tuples)
+    #sum_of_counts = get_total_count_tuple(level2_tuples)
+    #return render_template('resultlevel2_year.html', results=sorted_tuples, 
+     #   make=make, model=model, level1=level1, year=year, total=sum_of_counts)
+
 ########################### run the app #######################################
 if __name__ == '__main__':
     parse_file()

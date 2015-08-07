@@ -27,7 +27,7 @@ def get_percentage(record, sum_of_counts):
     
     return percentage
 
-
+################################# graphing ####################################
 def create_graph(x, y):
     x.reverse()
     y.reverse()
@@ -36,7 +36,9 @@ def create_graph(x, y):
     width = .75
     ind = np.arange(len(x))
     plt.barh(ind, x)
-    plt.yticks(ind + width / 2, y)
+    plt.yticks(ind + width / 2)
+    ax = plt.gca()
+    ax.set_yticklabels(y)
     fig.tight_layout()
 
     figure_html=fig_to_html(fig)
@@ -61,10 +63,12 @@ def create_results_dictionary(analysed_level):
 
 def results_graph(results_dictionary):
  	# array of descriptions
-    y = results_dictionary.keys()
+    #y = list(results_dictionary.keys())
+    y = [r[0] for r in results_dictionary.keys()]
+    print(y)
 
     # array of counts
-    x = results_dictionary.values()
+    x = list(results_dictionary.values())
 
     fig = create_graph(x, y)
 
