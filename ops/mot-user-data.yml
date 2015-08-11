@@ -21,12 +21,7 @@ coreos:
         User=hanoverd
         ExecStart=/opt/bin/hanoverd \
             --publish 5000:5000 \
-            --hookbot $HOOKBOT_MONITOR_URL \
-            -- \
-            --log-file - \
-            --access-logfile - \
-            --forwarded-allow-ips "*" \
-            app:app
+            --hookbot $HOOKBOT_MONITOR_URL
 
     - name: download-utilities.service
       command: start
