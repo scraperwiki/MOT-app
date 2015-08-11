@@ -2,9 +2,7 @@ FROM ubuntu:14.04
 
 RUN apt-get update && \
     apt-get install -y \
-    python-numpy python3 python3-pip libfreetype6-dev g++ python3.4-dev
-RUN apt-get install -y pkg-config
-RUN apt-get install -y git 
+    python-numpy python3 python3-pip libfreetype6-dev g++ python3.4-dev pkg-config git 
 RUN mkdir /home/nobody && \
     chown nobody /home/nobody
 USER nobody
@@ -18,6 +16,6 @@ RUN pip3 install --user -r requirements.txt
 COPY . /home/nobody/
 USER root
 RUN chown -R nobody /home/nobody
-RUN apt-get install -y w3m
 USER nobody
+ENTRYPOINT ["python3", "main_route.py"]
 EXPOSE 5000
