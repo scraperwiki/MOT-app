@@ -30,7 +30,7 @@ def parse_file():
         return Bigrecord(make, model, year, level1, level2, level3,
          int(modelcount))
 
-    with open("static/WholeDataFaults1.txt") as fd:
+    with open("static/WholeDataFaults.txt") as fd:
         records = list(csv.reader(fd, delimiter = '|'))
         records = records[1:]
         records = [make_record_level2(r) for r in records]
