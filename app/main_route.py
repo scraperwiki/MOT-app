@@ -66,14 +66,6 @@ def parse_file_rates():
 
 ######################### utility functions ###################################
 
-def get_total_count(dictionary_list):
-    sum = 0
-    for dictionary in dictionary_list:
-        for level1, list_of_tuples in dictionary.items():
-            for eachtuple in list_of_tuples:
-                sum += eachtuple[-1]
-    return sum
-
 # check the counts for the different makes in the data
 def create_make_count():
     make_dict = {}
@@ -165,18 +157,10 @@ def analyse_level2(mylevel1, dictionary):
         for level1, bigrecords in levels.items():
             if level1 == mylevel1:
                 for bigrecord in bigrecords:
-                    desc = bigrecord[0] + ' ' + bigrecord[1]
+                    desc = bigrecord[0] + ': ' + bigrecord[1]
                     running_total = level2_dict.get(desc, 0)
-                    level2_dict[desc] = running_total + bigrecord[-1]
-
-    
-    
-    #print(level2_dict)
+                    level2_dict[desc] = running_total + bigrecord[-1]   
     return level2_dict
-
-################################# graphing ####################################
-
-
 
 ################### computational app routing #################################
 @app.route('/make', methods=['GET', 'POST'])
@@ -236,6 +220,7 @@ def pass_vehicle_byyear(make, model, year):
         year=year, count_fail=fails, count_pass=passes, rate=rate)
 
 ######################### faults navigations #############################
+############################### level 1 ##################################
 
 @app.route('/FAULTS/<make>/<model>')
 def visit_vehicle_level1(make, model):
@@ -260,47 +245,30 @@ def visit_vehicle_level1_byyear(make, model, year):
     return render_template('resultlevel1_year.html', results=results_dictionary, 
         make=make, model=model, year=year, total=sum_of_counts, fig=fig)
 
+############################### level 2 ##################################
 @app.route('/FAULTS/<make>/<model>/<level1>')
 def visit_vehicle_level2(make, model, level1):
-    #print(data_dict)
     level2_tuples = analyse_level1(select_level2(make, model, level1)) 
 
     results_dictionary, sum_of_counts = utilities.create_results_dictionary(level2_tuples)
 
     fig = utilities.results_graph(results_dictionary)
-    #fig = ''
-
-
+    return render_template('resultlevel2.html', results=results_dictionary, 
+        make=make, model=model, total=sum_of_counts, level1=level1, fig=fig)
     
-    return render_template('resultlevel1_year.html', results=results_dictionary, 
-        make=make, model=model, total=sum_of_counts, fig=fig)
-    #print("level 2: "+repr(level2_tuples))    
-    # sorted_tuples = sort_by_count(level2_tuples)
-    # sum_of_counts = get_total_count_tuple(level2_tuples)
-    # return render_template('resultlevel2.html', results=sorted_tuples, 
-    #     make=make, model=model, level1=level1, total=sum_of_counts)
-
-
-
 @app.route('/<year>/FAULTS/<make>/<model>/<level1>')
 def visit_vehicle_level2_byyear(make, model, level1, year):
     level2_tuples = select_level2(make, model, level1, year)
-    print(level2_tuples)
+    
     results_dictionary, sum_of_counts = utilities.create_results_dictionary(level2_tuples)
 
     fig = utilities.results_graph(results_dictionary)
     
-    return render_template('resultlevel1_year.html', results=results_dictionary, 
-        make=make, model=model, year=year, total=sum_of_counts, fig=fig)
+    return render_template('resultlevel2_year.html', results=results_dictionary, 
+        make=make, model=model, year=year, total=sum_of_counts, level1=level1, fig=fig)
     
-
-    #sorted_tuples = utilities.sort_by_count(level2_tuples)
-    #sum_of_counts = get_total_count_tuple(level2_tuples)
-    #return render_template('resultlevel2_year.html', results=sorted_tuples, 
-     #   make=make, model=model, level1=level1, year=year, total=sum_of_counts)
-
 ########################### run the app #######################################
 if __name__ == '__main__':
     parse_file()
     parse_file_rates()
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='0.0.0.0')#, debug=True)

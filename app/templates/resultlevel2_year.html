@@ -15,16 +15,16 @@
 	    </tr>
 		
 		
-		{% for record in results %}
+		{% for record, percentage in results.items() %}
 			<tr id="{{ index }}">
 				<td>				
 					<b>{{ level1 }}</b>						
 				</td>
 				<td class="value-cell-center">
-				{{ record[0] + ' ' + record[1] }}
+				{{ record[0] }}
 				</td>
 				<td class="value-cell">
-				{{ record[-1] }} ({{ ((100*record[-1])/total)|round(1) }}%)
+				{{ record[-1] }} ({{ percentage }}%)
 				</td>				
 			</tr>			
 		{% endfor %}
