@@ -20,7 +20,7 @@ coreos:
 
         User=hanoverd
         ExecStart=/opt/bin/hanoverd \
-            --publish 8080:8000 \
+            --publish 5000:5000 \
             --hookbot $HOOKBOT_MONITOR_URL \
             -- \
             --log-file - \

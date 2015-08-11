@@ -13,10 +13,10 @@ ENV HOME=/home/nobody \
 # LANG needed for httpretty install on Py3
 WORKDIR /home/nobody
 
-COPY requirements.txt /home/nobody/requirements.txt
+COPY app/requirements.txt /home/nobody/requirements.txt
 RUN pip3 install --user -r requirements.txt
 
-COPY . /home/nobody/
+COPY app /home/nobody/
 USER root
 RUN chown -R nobody /home/nobody
 USER nobody
