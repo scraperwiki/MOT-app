@@ -2,7 +2,7 @@ FROM ubuntu:15.04
 
 RUN apt-get update && \
     apt-get install -y \
-    python3-numpy python3 python3-pip libfreetype6-dev g++ python3.4-dev pkg-config git gunicorn python3-matplotlib 
+    python3-numpy python3 python3-pip libfreetype6-dev g++ python3.4-dev pkg-config git python3-matplotlib 
 
 RUN mkdir /home/nobody && \
     chown nobody /home/nobody
@@ -22,4 +22,7 @@ RUN chown -R nobody /home/nobody
 USER nobody
 
 #ENTRYPOINT ["python3", "main_route.py"]
+
+ENTRYPOINT ["gunicorn", "-b","0.0.0.0:5000"]
+CMD ["--log-file", "-", "--access-logfile", "-", "main_route:app"]
 EXPOSE 5000
