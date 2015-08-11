@@ -268,7 +268,8 @@ def visit_vehicle_level2_byyear(make, model, level1, year):
         make=make, model=model, year=year, total=sum_of_counts, level1=level1, fig=fig)
 
 ########################### run the app #######################################
+parse_file()
+parse_file_rates()
+
 if __name__ == '__main__':
-    parse_file()
-    parse_file_rates()
     app.run(host='0.0.0.0')#, debug=True)
