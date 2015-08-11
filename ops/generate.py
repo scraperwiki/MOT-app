@@ -85,7 +85,7 @@ def load_user_data(filename, **kwargs):
 main = {
     "AWSTemplateFormatVersion": "2010-09-09",
 
-    "Description": "CloudFormation for newsreader.scraperwiki.com",
+    "Description": "CloudFormation for mot.scraperwiki.com",
 
     "Parameters": {
 
@@ -94,43 +94,7 @@ main = {
             "Type": "String",
             "Default": "t2.micro",
         },
-
-        "NewsreaderPublicUsername": {
-            "Description": "Newsreader public SPARQL username",
-            "Type": "String",
-            "NoEcho": "true",
-        },
-
-        "NewsreaderPublicPassword": {
-            "Description": "Newsreader public SPARQL password",
-            "Type": "String",
-            "NoEcho": "true",
-        },
-
-        "NewsreaderPrivateUsername": {
-            "Description": "Newsreader private SPARQL username",
-            "Type": "String",
-            "NoEcho": "true",
-        },
-
-        "NewsreaderPrivatePassword": {
-            "Description": "Newsreader private SPARQL password",
-            "Type": "String",
-            "NoEcho": "true",
-        },
-
-        "NewsreaderPublicApiKey": {
-            "Description": "Newsreader Public API keys",
-            "Type": "String",
-            "NoEcho": "true",
-        },
-
-        "NewsreaderPrivateApiKey": {
-            "Description": "Newsreader Private API keys",
-            "Type": "String",
-            "NoEcho": "true",
-        },
-
+        
         "HookbotMonitorUrl": {
             "Description": "Hookbot Monitor URL",
             "Type": "String",
@@ -155,7 +119,7 @@ main = {
 
     "Resources": {
 
-        "NewsreaderRole": {
+        "MOTRole": {
             "Type": "AWS::IAM::Role",
             "Properties": {
                 "AssumeRolePolicyDocument": {
@@ -168,15 +132,15 @@ main = {
                         },
                     ],
                 },
-                "Path": "/newsreader/",
+                "Path": "/mot/",
             },
         },
 
-        "NewsreaderInstanceProfile": {
+        "MOTInstanceProfile": {
             "Type": "AWS::IAM::InstanceProfile",
             "Properties": {
-                "Path": "/newsreader/",
-                "Roles": [ref("NewsreaderRole")],
+                "Path": "/mot/",
+                "Roles": [ref("MOTRole")],
             }
         },
 
@@ -199,15 +163,15 @@ main = {
                         },
                     ],
                 },
-                "Roles": [ref("NewsreaderRole")],
+                "Roles": [ref("MOTRole")],
             },
         },
 
-        "NewsreaderSecurityGroup": {
+        "MOTSecurityGroup": {
             "Type": "AWS::EC2::SecurityGroup",
             "Properties": {
                 "VpcId": ref('VpcId'),
-                "Tags": make_tags(Name='Newsreader', Project='newsreader'),
+                "Tags": make_tags(Name='MOT', Project='mot'),
                 "GroupDescription": "Enable SSH, HTTP and HTTPS from everywhere",
                 "SecurityGroupIngress": [
                     {"IpProtocol": "tcp", "FromPort": "22",
@@ -220,35 +184,29 @@ main = {
             },
         },
 
-        "NewsreaderInstance": {
+        "MOTInstance": {
             "Type": "AWS::EC2::Instance",
             "Properties": {
-                "Tags": make_tags(Name='Newsreader', Project='newsreader'),
+                "Tags": make_tags(Name='MOT', Project='mot'),
                 "ImageId": COREOS_AMI,
                 "SubnetId": ref('SubnetId'),
                 "InstanceType": {"Ref": "InstanceType"},
-                "IamInstanceProfile": ref("NewsreaderInstanceProfile"),
-                "SecurityGroupIds": [{"Ref": "NewsreaderSecurityGroup"}],
+                "IamInstanceProfile": ref("MOTInstanceProfile"),
+                "SecurityGroupIds": [{"Ref": "MOTSecurityGroup"}],
                 "UserData": load_user_data(
-                    'newsreader-user-data.yml',
-                    newsreader_public_username=ref('NewsreaderPublicUsername'),
-                    newsreader_public_password=ref('NewsreaderPublicPassword'),
-                    newsreader_private_username=ref('NewsreaderPrivateUsername'),
-                    newsreader_private_password=ref('NewsreaderPrivatePassword'),
-                    newsreader_public_api_key=ref('NewsreaderPublicApiKey'),
-                    newsreader_private_api_key=ref('NewsreaderPrivateApiKey'),
+                    'mot-user-data.yml',
                     hookbot_monitor_url=ref('HookbotMonitorUrl'),
                 ),
             },
         },
 
-        "NewsreaderDNS": {
+        "MOTDNS": {
             "Type": "AWS::Route53::RecordSet",
             "Properties": {
                 "HostedZoneName": join(ref("HostedZoneName"), "."),
-                "Comment": "DNS name for newsreader.scraperwiki.com",
+                "Comment": "DNS name for mot.scraperwiki.com",
 
-                # e.g, newsreader-20150413-pw-dev-eu-west-1.scraperwiki.com
+                # e.g, mot-20150413-pw-dev-eu-west-1.scraperwiki.com
                 "Name": join(
                     join(
                         ref("AWS::StackName"),
@@ -262,16 +220,16 @@ main = {
                 "Type": "A",
                 "TTL": "60",
                 "ResourceRecords": [
-                    {'Fn::GetAtt': ['NewsreaderInstance', 'PublicIp']},
+                    {'Fn::GetAtt': ['MOTInstance', 'PublicIp']},
                 ],
             },
         },
     },
 
     "Outputs": {
-        "NewsreaderDNS": {
-            "Value": ref("NewsreaderDNS"),
-            "Description": "DNS name of Newsreader instance"
+        "MOTDNS": {
+            "Value": ref("MOTDNS"),
+            "Description": "DNS name of MOT instance"
         }
     }
 }

@@ -16,23 +16,17 @@ WHAT="$1"
 UNIQUE_NAME="$2"
 
 # Sets the "Project" tag, for billing
-PROJECT_TAG="newsreader"
+PROJECT_TAG="mot"
 
 STACKNAME="${PROJECT_TAG}-${UNIQUE_NAME}"
 
 make -o build
 
-aws cloudformation validate-template --template-body file://generated/newsreader.json > /dev/null
+aws cloudformation validate-template --template-body file://generated/mot.json > /dev/null
 
 PARAMETERS=(
-  ParameterKey=NewsreaderPublicUsername,ParameterValue="$NEWSREADER_PUBLIC_USERNAME"
-  ParameterKey=NewsreaderPublicPassword,ParameterValue="$NEWSREADER_PUBLIC_PASSWORD"
-  ParameterKey=NewsreaderPrivateUsername,ParameterValue="$NEWSREADER_PRIVATE_USERNAME"
-  ParameterKey=NewsreaderPrivatePassword,ParameterValue="$NEWSREADER_PRIVATE_PASSWORD"
-  ParameterKey=NewsreaderPublicApiKey,ParameterValue="$NEWSREADER_PUBLIC_API_KEY"
-  ParameterKey=NewsreaderPrivateApiKey,ParameterValue="$NEWSREADER_PRIVATE_API_KEY"
-  ParameterKey=VpcId,ParameterValue="$NEWSREADER_VPC"
-  ParameterKey=SubnetId,ParameterValue="$NEWSREADER_SUBNET"
+  ParameterKey=VpcId,ParameterValue="$MOT_VPC"
+  ParameterKey=SubnetId,ParameterValue="$MOT_SUBNET"
   ParameterKey=HookbotMonitorUrl,ParameterValue="$HOOKBOT_MONITOR_URL"
 )
 
@@ -44,10 +38,10 @@ case "$WHAT" in
       --stack-name "$STACKNAME"                                       \
       --disable-rollback                                              \
       --timeout-in-minutes "120"                                      \
-      --tags Key=Name,Value="$STACKNAME" Key=Project,Value=newsreader \
+      --tags Key=Name,Value="$STACKNAME" Key=Project,Value=mot \
       --capabilities CAPABILITY_IAM                                   \
       --parameters "${PARAMETERS[@]}"                                 \
-      --template-body file://generated/newsreader.json
+      --template-body file://generated/mot.json
   ;;
 
   update)
@@ -56,7 +50,7 @@ case "$WHAT" in
       --stack-name "$STACKNAME"         \
       --capabilities CAPABILITY_IAM     \
       --parameters "${PARAMETERS[@]}"   \
-      --template-body file://generated/newsreader.json
+      --template-body file://generated/mot.json
   ;;
 
   delete)
