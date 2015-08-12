@@ -11,6 +11,9 @@ coreos:
 
         After=download-utilities.service
         Requires=download-utilities.service
+        After=download-data.service
+        Requires=download-data.service
+
 
         [Service]
         EnvironmentFile=/etc/mot/env
@@ -22,6 +25,26 @@ coreos:
         ExecStart=/opt/bin/hanoverd \
             --publish 5000:5000 \
             --hookbot $HOOKBOT_MONITOR_URL
+
+    - name: download-data.service
+      command: start
+      content: |
+        [Unit]
+        Description=Downloads MOT data from s3
+
+        After=download-utilities.service
+        Requires=download-utilities.service
+
+        [Service]
+        Type=oneshot
+        RemainAfterExit=yes
+
+        ExecStart=/usr/bin/mkdir -p /srv/mot
+        ExecStart=/opt/bin/s4cat -output=/srv/mot/WholeDataRates.csv \
+            sw-mot WholeDataRates.csv
+        ExecStart=/opt/bin/s4cat -output=/srv/mot/WholeDataFaults.txt \
+            sw-mot WholeDataFaults.txt
+        ExecStart=/usr/bin/chown -R nobody:nobody /srv/mot
 
     - name: download-utilities.service
       command: start
