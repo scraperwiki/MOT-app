@@ -228,6 +228,7 @@ def pass_vehicle_byyear(make, model, year):
 def visit_vehicle_level1(make, model):
     """obtain the values chosen by the user for make and model..."""
     level1 = extract_level1(select_make_model(make, model))
+    print(level1)
     level1_tuples = analyse_level1(level1)
     results_dictionary, sum_of_counts = utilities.create_results_dictionary(level1_tuples)
     fig = utilities.results_graph(results_dictionary)
@@ -240,7 +241,7 @@ def visit_vehicle_level1_byyear(make, model, year):
     level1 = extract_level1_year(select_make_model(make, model, year))
     #print(level1)
     level1_tuples = analyse_level1(level1)
-    print(level1_tuples)
+    #print(level1_tuples)
     results_dictionary, sum_of_counts = utilities.create_results_dictionary(level1_tuples)
     fig = utilities.results_graph(results_dictionary)
 
@@ -274,4 +275,4 @@ parse_file()
 parse_file_rates()
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')#, debug=True)
+    app.run(host='0.0.0.0', debug=True)
