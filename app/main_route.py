@@ -9,9 +9,11 @@ import json
 from collections import namedtuple, OrderedDict
 import operator
 import utilities
+import os
 
-
-
+DATA_DIR = "/dockermount"
+FAULTS = os.path.join(DATA_DIR, "WholeDataFaults.txt")
+RATES = os.path.join(DATA_DIR, "WholeDataRates.csv")
 
 # global variables
 app = Flask(__name__, static_url_path = "/static")
@@ -30,7 +32,7 @@ def parse_file():
         return Bigrecord(make, model, year, level1, level2, level3,
          int(modelcount))
 
-    with open("static/WholeDataFaults.txt") as fd:
+    with open(FAULTS) as fd:
         records = list(csv.reader(fd, delimiter = '|'))
         records = records[1:]
         records = [make_record_level2(r) for r in records]
@@ -51,7 +53,7 @@ def parse_file_rates():
         (make, model, year, testresult, modelcount) = line
         return Bigrecord(make, model, year, testresult, int(modelcount))
 
-    with open("static/WholeDataRates.csv") as fd:
+    with open(RATES) as fd:
         records = list(csv.reader(fd))
         records = records[1:]
         records = [make_record(r) for r in records]

@@ -3,6 +3,7 @@ run:	build
 		--rm \
 		-ti \
 		-p 5000:5000 \
+		-v /home/dragon/git/mot/app/static:/dockermount:ro \
 		data
 
 
