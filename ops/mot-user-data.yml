@@ -25,7 +25,7 @@ coreos:
         ExecStart=/opt/bin/hanoverd \
             --publish 5000:5000 \
             --hookbot $HOOKBOT_MONITOR_URL \
-            -v /srv/mot:/dockermount:ro
+            --volume /srv/mot:/dockermount:ro
 
     - name: download-data.service
       command: start

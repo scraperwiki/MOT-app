@@ -3,7 +3,7 @@ run:	build
 		--rm \
 		-ti \
 		-p 5000:5000 \
-		-v $(PWD)/app/static:/dockermount:ro \
+		-v /home/dragon/dockermount:/dockermount:ro \
 		data
 
 
