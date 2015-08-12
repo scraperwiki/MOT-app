@@ -3,7 +3,7 @@ run:	build
 		--rm \
 		-ti \
 		-p 5000:5000 \
-		-v /home/dragon/dockermount:/dockermount:ro \
+		-v "/home/piusokoh/MOT data:/dockermount:ro" \
 		data
 
 

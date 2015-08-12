@@ -23,6 +23,6 @@ USER nobody
 
 #ENTRYPOINT ["python3", "main_route.py"]
 
-ENTRYPOINT ["gunicorn", "-b","0.0.0.0:5000"]
+ENTRYPOINT ["gunicorn", "-b","0.0.0.0:5000", "--workers", "1", "--timeout", "9999"]
 CMD ["--log-file", "-", "--access-logfile", "-", "--forwarded-allow-ips", "*", "main_route:app"]
 EXPOSE 5000
