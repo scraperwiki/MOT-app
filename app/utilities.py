@@ -3,9 +3,11 @@ from __future__ import division
 from collections import OrderedDict
 
 # imports for plots
+import matplotlib 
+matplotlib.use('SVG')
 import matplotlib.pyplot as plt; plt.rcdefaults()
 import numpy as np
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import pylab as pl
 from mpld3 import fig_to_html
 
@@ -66,7 +68,7 @@ def results_graph(results_dictionary):
  	# array of descriptions
     #y = list(results_dictionary.keys())
     y = [r[0] for r in results_dictionary.keys()]
-    print(y)
+    #print(y)
 
     # array of counts
     x = list(results_dictionary.values())
