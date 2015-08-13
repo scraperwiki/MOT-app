@@ -53,13 +53,11 @@ def parse_file_rates():
         return Bigrecord(make, model, year, testresult, int(modelcount))
 
     with open(RATES) as fd:
-        records = list(csv.reader(fd))
-        records = records[1:]
-        records = [make_record(r) for r in records]
-
-    for r in records:
-        data_dict_builder.setdefault(r.make, {}).setdefault(r.model,
-            {}).setdefault(r.year, {})[r.testresult] = r.modelcount
+        lines = csv.reader(fd)
+        for l in lines:
+            big = make_record(l)
+            data_dict_builder.setdefault(big.make, {}).setdefault(big.model,
+                {}).setdefault(big.year, {})[big.testresult] = big.modelcount
 
 
     data_dict_rates = data_dict_builder
@@ -227,7 +225,7 @@ def pass_vehicle_byyear(make, model, year):
 def visit_vehicle_level1(make, model):
     """obtain the values chosen by the user for make and model..."""
     level1 = extract_level1(select_make_model(make, model))
-    print(level1)
+    #print(level1)
     level1_tuples = analyse_level1(level1)
     results_dictionary, sum_of_counts = utilities.create_results_dictionary(level1_tuples)
     fig = utilities.results_graph(results_dictionary)
