@@ -21,8 +21,8 @@ USER root
 RUN chown -R nobody /home/nobody
 USER nobody
 
-#ENTRYPOINT ["python3", "main_route.py"]
+ENTRYPOINT ["python3", "main_route.py"]
 
-ENTRYPOINT ["gunicorn", "-b","0.0.0.0:5000", "--workers", "1", "--timeout", "9999"]
-CMD ["--log-file", "-", "--access-logfile", "-", "--forwarded-allow-ips", "*", "main_route:app"]
+#ENTRYPOINT ["gunicorn", "-b","0.0.0.0:5000", "--workers", "1", "--timeout", "9999", "--error-logfile", "-", "--log-level", "debug"]
+#CMD ["--log-file", "-", "--access-logfile", "-", "--forwarded-allow-ips", "*", "main_route:app"]
 EXPOSE 5000
