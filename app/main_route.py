@@ -33,16 +33,15 @@ def parse_file():
          int(modelcount))
 
     with open(FAULTS) as fd:
-        records = list(csv.reader(fd, delimiter = '|'))
-        records = records[1:]
-        records = [make_record_level2(r) for r in records]
+        lines = csv.reader(fd, delimiter = '|')
+        for l in lines:
+            big = make_record_level2(l)
 
-    for r in records:
-        data_dict_builder.setdefault(r.make, {}).setdefault(r.model,
-            {}).setdefault(r.year, {}).setdefault(r.level1,
-            []).append((r.level2, r.level3, r.modelcount))
+            data_dict_builder.setdefault(big.make, {}).setdefault(big.model,
+                {}).setdefault(big.year, {}).setdefault(big.level1,
+                []).append((big.level2, big.level3, big.modelcount))
 
-        data_dict = data_dict_builder
+    data_dict = data_dict_builder
 
 def parse_file_rates():
     data_dict_builder = {}
