@@ -92,7 +92,7 @@ main = {
         "InstanceType": {
             "Description": "WebServer EC2 instance type",
             "Type": "String",
-            "Default": "t2.large",
+            "Default": "t2.medium",
         },
 
         "HookbotMonitorUrl": {
