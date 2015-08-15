@@ -77,9 +77,9 @@
             <legend id="banner" class="advert" data-section="1">
                 <div class="banner-container">
                     <content class="banner-col">
-                        <h3 class="banner-title">I want to buy a new <span id="banner-typeset" class="text-blue"></span></h3>                     
-                        <h4 class="banner-subtitle">What's the pass rate of and the typical faults discovered with this car at MOT testing?</h4>
-                        <h5 class="banner-subtitle1">At ScraperWiki, using data science, we’ll tell you.</h5>
+                        <h2 class="banner-title">I want to buy a new <span id="banner-typeset" class="text-blue"></span></h2>                     
+                        <h3 class="banner-subtitle">What's the pass rate of and the typical faults discovered with this car at MOT testing?</h3>
+                        <h3 class="banner-subtitle1">At ScraperWiki, using data science, we’ll tell you.</h3>
                     </content><!-- .banner-col-centered -->
                 </div><!-- .banner-container -->                
             </legend><!-- .banner-section -->
@@ -91,7 +91,7 @@
     <!-- Car Make Selection -->
     <div class="indexbody">
     <div class="control-group">
-      <label id="maketext"class="control-label" for="car-make-input" style="font-size:20px">Which vehicle <b>Make</b> do you want to know about?</label>
+      <label id="maketext"class="control-label" for="car-make-input" style="font-size:25px">Which vehicle <b>Make</b> do you want to know about?</label>
       <div class="controls">
         <div class="input-append">
           <!--<input id="car-make-input" name="car-make-input" class="input-xlarge" placeholder="e.g. Ford" type="text" required="">-->
@@ -106,7 +106,7 @@
 
     <!-- Car Model Selection -->
     <div class="control-group">
-      <label class="control-label" for="car-model-input" style="font-size:20px">What <b>Model</b>?</label>
+      <label class="control-label" for="car-model-input" style="font-size:25px">What <b>Model</b>?</label>
       <div class="controls">
         <div class="input-append">
           <!--<input id="car-make-input" name="car-make-input" class="input-xlarge" placeholder="e.g. Fiesta" type="text" required="">-->
@@ -119,7 +119,7 @@
 
     <!-- Year first on road Selection -->
     <div class="control-group">
-      <label class="control-label" for="car-model-input" style="font-size:20px">Filter by <b>Year</b> the car was first on the road (optional)</label>
+      <label class="control-label" for="car-model-input" style="font-size:25px">Filter by <b>Year</b> the car was first on the road (optional)</label>
       <div class="controls">
         <div class="input-append">
           <!--<input id="car-make-input" name="car-make-input" class="input-xlarge" placeholder="e.g. Fiesta" type="text" required="">-->
@@ -137,7 +137,11 @@
         <input id="submit-button" name="submit-button" class="btn btn-primary" type="submit" value="Display Top Faults"></input>
         <input id="submit-button2" name="submit-button" class="btn btn-primary" type="submit" value="Display Pass Rate"></input>
       </div>
-    </div>  
+
+    </div>
+    <div id="indeximage">
+    <img src="{{ url_for('static', filename = 'indeximage.jpg') }}" alt="Responsive image"> 
+    </div> 
     </div> 
 
     </fieldset>

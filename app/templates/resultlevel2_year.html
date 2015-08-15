@@ -21,7 +21,7 @@
 					<b>{{ level1 }}</b>						
 				</td>
 				<td class="value-cell-center">
-				{{ record[0] }}
+				{{ record[0]+': '+ record[1] }}
 				</td>
 				<td class="value-cell">
 				{{ record[-1] }} ({{ percentage }}%)
@@ -29,5 +29,9 @@
 			</tr>			
 		{% endfor %}
 	</table>
+
+	<div class="graph">
+		{{ fig|safe}}
+	</div>
 
 {% endblock %}
