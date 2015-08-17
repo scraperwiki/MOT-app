@@ -83,10 +83,6 @@ table, th, td {
 	text-align: left;
 }
 
-#header-logo img {
-        width: 100%;
-}
-
 .header-nav li:not(:first-child)
 {
 	display: inline-block;
@@ -308,6 +304,12 @@ html, body {
   margin-bottom: 2px;
   margin-right: 2px;
   height: 32px;
+  width: 100%;
+}
+
+/* Overriding .container img 15% width; if that's not needed, should remove it. */
+#made-by img {
+  width: 160px;
 }
 
 @media (max-width: 767px) {
