@@ -218,46 +218,6 @@ html, body {
    display: inline-block;
  }
 }
-*/
-
-#footer {
-  margin-top: -35px;
-  padding: 30px 0 15px 0;
-  font-size: 14px;
-  clear: both;
-}
-
-#footer ul {
-  margin: 0 auto;
-  border-top: 1px solid #f3f3f3;
-  padding-top: 10px;
-  padding-left: 2px;
-  padding-right: 0px;
-}
-
-#footer li {
-  display: inline-block;
-  margin-right: 15px;
-}
-
-#footer li.pull-right {
-  display: inline-block;
-  margin-right: 0px;
-}
-
-#footer a {
-  color: #bbb;
-  padding: 5px 0;
-}
-
-/*
-@media only screen and (min-width: 1992px) {
- #made-by {
-   float: right;
-   display: inline-block;
- }
-}
-*/
 
 /* PDFTables.com Header */
 
@@ -315,10 +275,6 @@ html, body {
   #header-logo {
     margin-left: 16px;
   }
-}
-
-#pdftables-subhead {
-  color: #bbb;
 }
 
 #logo:active {
@@ -382,10 +338,6 @@ html, body {
   #header .nav > ul > li + li {
     margin-left: 0px;
   }
-}
-
-#header .nav li.trial a.urgent {
-  color: #B94A48;
 }
 
 #header .nav > ul > li > a, #header .nav > ul > li.upload a {
@@ -458,31 +410,5 @@ html, body {
   }
 }
 
-/* override rule in custard.css */
-h1:first-child, h2:first-child {
-  margin: 20px 0;
-}
-
-.upload h1:first-child, .upload h2:first-child {
-  margin-top: 0px;
-}
-
-#header .nav #headerUploadButton {
-  color: #fff;
-  text-shadow: none;
-  padding: 0 15px;
-  border-top: none;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0;
-}
-
-#header .nav li.upload {
-  margin-left: 20px;
-}
-
-#header .nav li.trial a {
-   color: #B94A48;
-}
 
 /********************************************************************/
