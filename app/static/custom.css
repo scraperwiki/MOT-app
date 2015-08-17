@@ -212,8 +212,7 @@ html, body {
   padding: 5px 0;
 }
 
-/*
-@media only screen and (min-width: 1992px) {
+@media only screen and (min-width: 992px) {
  #made-by {
    float: right;
    display: inline-block;
