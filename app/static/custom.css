@@ -123,6 +123,12 @@ table, th, td {
 	color: #666;
 }
 
+.banner-format
+{
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
 .banner-subtitle
 {
 	color: #666;
