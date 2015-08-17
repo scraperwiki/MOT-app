@@ -77,9 +77,7 @@
             <legend id="banner" class="advert" data-section="1">
                 <div class="banner-container">
                     <content class="banner-col">
-                        <h2 class="banner-title">I want to buy a new <span id="banner-typeset" class="text-blue"></span></h2>                     
-                        <h3 class="banner-subtitle">What's the pass rate of and the typical faults <br>discovered with this car at MOT testing?</h3>
-                        <h3 class="banner-subtitle1">At ScraperWiki, using data science, we’ll tell you.</h3>
+                        <h1 class="banner-title">Buying a new <span id="banner-typeset" class="text-blue"></span></h1>                 
                     </content><!-- .banner-col-centered -->
                 </div><!-- .banner-container -->                
             </legend><!-- .banner-section -->
@@ -91,7 +89,7 @@
     <!-- Car Make Selection -->
     <div class="indexbody">
     <div class="control-group">
-      <label id="maketext"class="control-label" for="car-make-input" style="font-size:25px">Which vehicle <b>Make</b> do you want to know about?</label>
+      <label id="maketext"class="control-label" for="car-make-input" style="font-size:20px">Select the car <b>Make</b></label>
       <div class="controls">
         <div class="input-append">
           <!--<input id="car-make-input" name="car-make-input" class="input-xlarge" placeholder="e.g. Ford" type="text" required="">-->
@@ -106,7 +104,7 @@
 
     <!-- Car Model Selection -->
     <div class="control-group">
-      <label class="control-label" for="car-model-input" style="font-size:25px">What <b>Model</b>?</label>
+      <label class="control-label" for="car-model-input" style="font-size:20px">Select <b>Model</b></label>
       <div class="controls">
         <div class="input-append">
           <!--<input id="car-make-input" name="car-make-input" class="input-xlarge" placeholder="e.g. Fiesta" type="text" required="">-->
@@ -119,7 +117,7 @@
 
     <!-- Year first on road Selection -->
     <div class="control-group">
-      <label class="control-label" for="car-model-input" style="font-size:25px">Filter by <b>Year</b> the car was first on the road (optional)</label>
+      <label class="control-label" for="car-year-input" style="font-size:15px">Filter by <b>Year</b> (<i>optional</i>)</label>
       <div class="controls">
         <div class="input-append">
           <!--<input id="car-make-input" name="car-make-input" class="input-xlarge" placeholder="e.g. Fiesta" type="text" required="">-->
@@ -139,12 +137,19 @@
       </div>
 
     </div>
-    <div id="indeximage">
-    <img src="{{ url_for('static', filename = 'indeximage.jpg') }}" alt="Responsive image"> 
-    </div> 
+     
     </div> 
 
     </fieldset>
     </form>
+
+
+<div class="advert">
+    <div>
+        <content>                                        
+            <h3 class="banner-subtitle">Official Pass Rates and Faults on MOT testing</h3>                        
+        </content><!-- .banner-col-centered -->
+    </div><!-- .banner-container -->                
+</div><!-- .banner-section -->
 
 {% endblock %}
