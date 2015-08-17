@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% set title = 'Query Results' %}
-{% set index = 0 %}
 {% block content %}	
 
 	
@@ -8,44 +7,44 @@
 	<!--Test
 	<p id="demo">Test</p>
 	-->
-	<h3 class="header">Top 10 Fault Summary for '{{ make }} {{ model }}' {{ year }} model</h3>
-	<table cellspacing="50" class="tabledesc">
-		
-		<tr>
-		    <th class="header">Fault Top-Level description</th>
-		    <th class="header">Count of Vehicles with this Fault</th>
-		    <th class="header">Total Count</th>
-		    <th class="header">Percentage</th>	
-		    <th class="header">Learn More</th>	
-	    </tr>
-		
-		
-		{% for record, percentage in results.items() %}
-			<tr id="{{ index }}">
-				<td>				
-					<b>{{ record[0] }}</b>						
-				</td>
-				<td class="value-cell">
-				{{ record[1] }}
-				</td>
-				<td class="value-cell">
-				{{ total }}
-				</td>
-				<td class="value-cell">
-				{{ percentage }}%
-				</td>
-				<td>
-					<a href='/{{ year }}/FAULTS/{{ make }}/{{ model }}/{{ record[0] }}'>
-					<small>break this down</small>
-					</a>
-				</td>
-			</tr>
-			{% set index = index + 1 %}
-		{% endfor %}
-	</table>
+	<h3 class="header">Top 10 Faults for <span class="text-blue">'{{ make }} {{ model }} {{ year }}'</span></h3>
+	<h3 class="header"># CARS TESTED: {{ total }}</h3>
+	<div class="row">
+		<div>
+			<table cellspacing="50" class="tabledesc">
+				
+				<tr>
+				    <th class="header">Fault Description</th>
+				    <th class="header">#</th>
+				    <th class="header">%</th>	
+				    <th class="header"></th>	
+			    </tr>
+				
+				
+				{% for record, percentage in results.items() %}
+					<tr>
+						<td>				
+							<b>{{ record[0] }}</b>						
+						</td>
+						<td class="value-cell">
+						{{ record[1] }}
+						</td>
+						<td class="value-cell">
+						{{ percentage }}%
+						</td>
+						<td>
+							<a href='/{{ year }}/FAULTS/{{ make }}/{{ model }}/{{ record[0] }}'>
+							<small>detail</small>
+							</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</table>
+		</div>
 
-	<div class="graph">
-		{{ fig|safe}}
+		<div class="graph">
+			{{ fig|safe}}
+		</div>
 	</div>
 	
 
