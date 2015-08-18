@@ -186,7 +186,7 @@ def index():
 
 @app.route('/', methods=['POST'])
 def navigate():
-    if request.form['year']=='Select a year':
+    if request.form['year']=='choose year':
         if request.form['submit-button']=='Display Top Faults':
             return redirect("/FAULTS/{}/{}".format(request.form['make'],
                 request.form['model']))
@@ -272,4 +272,4 @@ parse_file()
 parse_file_rates()
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', debug=True)

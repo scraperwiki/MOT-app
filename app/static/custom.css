@@ -75,6 +75,11 @@ table, th, td {
 	/*background: #E0E0E0;*/
 }
 
+.bottom-advert
+{  
+  text-align: center;   
+}
+
 
 .container img
 {
@@ -117,6 +122,12 @@ table, th, td {
 .indexbody {
 		text-align: center;
 		padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.indexbuttons {
+    padding-top: 30px;
+    text-align: center;
 }
 
 .banner-col
@@ -133,6 +144,7 @@ table, th, td {
 .banner-subtitle
 {
 	color: #666;
+  text-align: center; 
 }
 
 .banner-subtitle1
@@ -152,7 +164,7 @@ html, body {
     height: 100%;
 }
 .wrapper {
-    min-height: 90%;
+    min-height: 85%;
     height: auto;
     /*height: 100%;*/
     margin: 0 auto -20px; /* the bottom margin is the negative value of the footer's height */
