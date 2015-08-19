@@ -11,7 +11,8 @@
 		
 		<tr class="text-blue-big">
 		    <th class="header">Fault Full Description</th>
-		    <th class="header">Number of Vehicles with this Description</th>		  	
+		    <th class="header">Number of Vehicles</th>
+		    <th class="header"></th>		  	
 	    </tr>
 		
 		
@@ -22,14 +23,15 @@
 				</td>
 				<td class="value-cell">
 				{{ record[-1] }} ({{ percentage }}%)
+				</td>
+				<td>
+					<div id="rectangle" style="background:#2ECCFA; height: 15px;width:{{ 4*percentage }}px">&nbsp;</div>
 				</td>				
 			</tr>			
 		{% endfor %}
 	</table>
 
-	<div class="graph">
-		{{ fig|safe}}
-	</div>
+	
 </div>
 
 {% endblock %}

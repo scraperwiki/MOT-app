@@ -14,6 +14,7 @@
 				    <th class="header">Fault Description</th>
 				    <th class="header">#</th>
 				    <th class="header">%</th>	
+				    <th class="header"></th>
 				    <th class="header"></th>	
 			    </tr>
 				
@@ -30,6 +31,9 @@
 						{{ percentage }}%
 						</td>
 						<td>
+						<div id="rectangle" style="background:#2ECCFA; height: 15px;width:{{ 10*percentage }}px">&nbsp;</div>
+						</td>
+						<td>
 							<a href='/FAULTS/{{ make }}/{{ model }}/{{ record[0] }}'>
 							<small>detail</small>
 							</a>
@@ -39,10 +43,7 @@
 			</table>
 		</div>
 
-		<div class="graph">
-			{{ fig|safe}}
 		</div>
-	</div>
 	</div>
 	
 
