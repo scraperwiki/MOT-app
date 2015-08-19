@@ -5,21 +5,18 @@
 	<!--Test
 	<p id="demo">Test</p>
 	-->
+<div class="container">
 	<h4 class="header">Fault BreakDown for the {{ total }} '{{ make }} {{ model }}' {{ year }} models with '{{ level1 }}' issues</h4>
-	<table cellspacing="50" class="tabledesc">
+	<table class="table table-striped">
 		
 		<tr>
-		    <th class="header">Top-Level Description Selected</th>
 		    <th class="header">Fault Full Description</th>
-		    <th class="header">Count of Vehicles with this Description</th>		  	
+		    <th class="header">Number of Vehicles with this Description</th>		  	
 	    </tr>
 		
 		
 		{% for record, percentage in results.items() %}
-			<tr id="{{ index }}">
-				<td>				
-					<b>{{ level1 }}</b>						
-				</td>
+			<tr>
 				<td class="value-cell-center">
 				{{ record[0]+': '+ record[1] }}
 				</td>
@@ -33,5 +30,6 @@
 	<div class="graph">
 		{{ fig|safe}}
 	</div>
+</div>
 
 {% endblock %}

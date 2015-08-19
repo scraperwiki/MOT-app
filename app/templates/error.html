@@ -2,7 +2,14 @@
 {% set title = 'Error in input' %}
 {% block content %}
 
-<div class="container">
+<style type="text/css">
+	.bs-example{
+		margin-top: 80px;
+		font-size: 25px;
+	}
+</style>
+
+<div class="container bs-example">
     <div class="alert alert-warning">
         <a href="/" class="close" data-dismiss="alert">&times;</a>
         <strong>{{ error }}</strong>

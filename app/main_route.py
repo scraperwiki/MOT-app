@@ -233,26 +233,34 @@ def pass_vehicle_byyear(make, model, year):
 @app.route('/FAULTS/<make>/<model>')
 def visit_vehicle_level1(make, model):
     """obtain the values chosen by the user for make and model..."""
-    level1 = extract_level1(select_make_model(make, model))
-    #print(level1)
-    level1_tuples = analyse_level1(level1)
-    results_dictionary, sum_of_counts = utilities.create_results_dictionary(level1_tuples)
-    fig = utilities.results_graph(results_dictionary)
-    return render_template('resultlevel1.html', results=results_dictionary,
-        make=make, model=model, total=sum_of_counts, fig=fig)
+    if make in data_dict:
+        level1 = extract_level1(select_make_model(make, model))
+        #print(level1)
+        level1_tuples = analyse_level1(level1)
+        results_dictionary, sum_of_counts = utilities.create_results_dictionary(level1_tuples)
+        fig = utilities.results_graph(results_dictionary)
+        return render_template('resultlevel1.html', results=results_dictionary,
+            make=make, model=model, total=sum_of_counts, fig=fig)
+    else:
+        error = 'There are no failures for ' + make + ' ' + model + ' in the data set'
+        return render_template("error.html", error=error)
 
 @app.route('/<year>/FAULTS/<make>/<model>')
 def visit_vehicle_level1_byyear(make, model, year):
     """obtain the values chosen by the user for make and model..."""
-    level1 = extract_level1_year(select_make_model(make, model, year))
-    #print(level1)
-    level1_tuples = analyse_level1(level1)
-    #print(level1_tuples)
-    results_dictionary, sum_of_counts = utilities.create_results_dictionary(level1_tuples)
-    fig = utilities.results_graph(results_dictionary)
+    if make in data_dict:
+        level1 = extract_level1_year(select_make_model(make, model, year))
+        #print(level1)
+        level1_tuples = analyse_level1(level1)
+        #print(level1_tuples)
+        results_dictionary, sum_of_counts = utilities.create_results_dictionary(level1_tuples)
+        fig = utilities.results_graph(results_dictionary)
 
-    return render_template('resultlevel1_year.html', results=results_dictionary,
-        make=make, model=model, year=year, total=sum_of_counts, fig=fig)
+        return render_template('resultlevel1_year.html', results=results_dictionary,
+            make=make, model=model, year=year, total=sum_of_counts, fig=fig)
+    else:
+        error = 'There are no failures for ' + make + ' ' + model + year +' model in the data set'
+        return render_template("error.html", error=error)
 
 ############################### level 2 ##################################
 @app.route('/FAULTS/<make>/<model>/<level1>')
