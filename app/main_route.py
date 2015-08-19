@@ -238,9 +238,9 @@ def visit_vehicle_level1(make, model):
         #print(level1)
         level1_tuples = analyse_level1(level1)
         results_dictionary, sum_of_counts = utilities.create_results_dictionary(level1_tuples)
-        fig = utilities.results_graph(results_dictionary)
+        #fig = utilities.results_graph(results_dictionary)
         return render_template('resultlevel1.html', results=results_dictionary,
-            make=make, model=model, total=sum_of_counts, fig=fig)
+            make=make, model=model, total=sum_of_counts)
     else:
         error = 'There are no failures for ' + make + ' ' + model + ' in the data set'
         return render_template("error.html", error=error)
@@ -254,10 +254,10 @@ def visit_vehicle_level1_byyear(make, model, year):
         level1_tuples = analyse_level1(level1)
         #print(level1_tuples)
         results_dictionary, sum_of_counts = utilities.create_results_dictionary(level1_tuples)
-        fig = utilities.results_graph(results_dictionary)
+        #fig = utilities.results_graph(results_dictionary)
 
         return render_template('resultlevel1_year.html', results=results_dictionary,
-            make=make, model=model, year=year, total=sum_of_counts, fig=fig)
+            make=make, model=model, year=year, total=sum_of_counts)
     else:
         error = 'There are no failures for ' + make + ' ' + model + ' ' + year +' model in the data set'
         return render_template("error.html", error=error)
@@ -269,9 +269,9 @@ def visit_vehicle_level2(make, model, level1):
 
     results_dictionary, sum_of_counts = utilities.create_results_dictionary(level2_tuples)
 
-    fig = utilities.results_graph(results_dictionary)
+    #fig = utilities.results_graph(results_dictionary)
     return render_template('resultlevel2.html', results=results_dictionary,
-        make=make, model=model, total=sum_of_counts, level1=level1, fig=fig)
+        make=make, model=model, total=sum_of_counts, level1=level1)
 
 @app.route('/<year>/FAULTS/<make>/<model>/<level1>')
 def visit_vehicle_level2_byyear(make, model, level1, year):
@@ -279,10 +279,10 @@ def visit_vehicle_level2_byyear(make, model, level1, year):
 
     results_dictionary, sum_of_counts = utilities.create_results_dictionary(level2_tuples)
 
-    fig = utilities.results_graph(results_dictionary)
+    #fig = utilities.results_graph(results_dictionary)
 
     return render_template('resultlevel2_year.html', results=results_dictionary,
-        make=make, model=model, year=year, total=sum_of_counts, level1=level1, fig=fig)
+        make=make, model=model, year=year, total=sum_of_counts, level1=level1)
 
 ########################### run the app #######################################
 parse_file()

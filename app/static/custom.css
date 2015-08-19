@@ -119,6 +119,12 @@ table, th, td {
 		text-align: center;
 }
 
+.spacing
+{
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
 .indexbody {
 		text-align: center;
 		padding-top: 10px;
