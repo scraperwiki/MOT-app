@@ -188,22 +188,28 @@ def index():
 def navigate():
     selected_make = request.form['make']
     if selected_make == 'make':
-        flash('Please select a car make to proceed')
-    if request.form['year']=='choose year':
-        if request.form['submit-button']=='Display Top Faults':
-            return redirect("/FAULTS/{}/{}".format(request.form['make'],
-                request.form['model']))
-        else:
-            return redirect("/PASS/{}/{}".format(request.form['make'],
-                request.form['model']))
-
+        error = 'You did not select any car make. Please select a car make to proceed.'
+        return render_template("error.html", error=error)
     else:
-        if request.form['submit-button']=='Display Top Faults':
-            return redirect("/{}/FAULTS/{}/{}".format(request.form['year'],
-                request.form['make'], request.form['model']))
+        selected_model = request.form['model']
+        if selected_model == 'model':
+            error = 'You did not select any car model. Please select a car model to proceed.'
+            return render_template("error.html", error=error)
+        if request.form['year']=='choose year':
+            if request.form['submit-button']=='Display Top Faults':
+                return redirect("/FAULTS/{}/{}".format(request.form['make'],
+                    request.form['model']))
+            else:
+                return redirect("/PASS/{}/{}".format(request.form['make'],
+                    request.form['model']))
+
         else:
-            return redirect("/PASS/{}/{}/{}".format(request.form['make'],
-                request.form['model'], request.form['year']))
+            if request.form['submit-button']=='Display Top Faults':
+                return redirect("/{}/FAULTS/{}/{}".format(request.form['year'],
+                    request.form['make'], request.form['model']))
+            else:
+                return redirect("/PASS/{}/{}/{}".format(request.form['make'],
+                    request.form['model'], request.form['year']))
 
 ######################### pass navigations ##################################
 
