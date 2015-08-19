@@ -233,7 +233,7 @@ def pass_vehicle_byyear(make, model, year):
 @app.route('/FAULTS/<make>/<model>')
 def visit_vehicle_level1(make, model):
     """obtain the values chosen by the user for make and model..."""
-    if make in data_dict:
+    if make in data_dict and model in data_dict[make]:
         level1 = extract_level1(select_make_model(make, model))
         #print(level1)
         level1_tuples = analyse_level1(level1)
@@ -248,7 +248,7 @@ def visit_vehicle_level1(make, model):
 @app.route('/<year>/FAULTS/<make>/<model>')
 def visit_vehicle_level1_byyear(make, model, year):
     """obtain the values chosen by the user for make and model..."""
-    if make in data_dict:
+    if make in data_dict and model in data_dict[make] and year in data_dict[make][model]:
         level1 = extract_level1_year(select_make_model(make, model, year))
         #print(level1)
         level1_tuples = analyse_level1(level1)
@@ -259,7 +259,7 @@ def visit_vehicle_level1_byyear(make, model, year):
         return render_template('resultlevel1_year.html', results=results_dictionary,
             make=make, model=model, year=year, total=sum_of_counts, fig=fig)
     else:
-        error = 'There are no failures for ' + make + ' ' + model + year +' model in the data set'
+        error = 'There are no failures for ' + make + ' ' + model + ' ' + year +' model in the data set'
         return render_template("error.html", error=error)
 
 ############################### level 2 ##################################
