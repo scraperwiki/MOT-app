@@ -186,6 +186,9 @@ def index():
 
 @app.route('/', methods=['POST'])
 def navigate():
+    selected_make = request.form['make']
+    if selected_make == 'make':
+        flash('Please select a car make to proceed')
     if request.form['year']=='choose year':
         if request.form['submit-button']=='Display Top Faults':
             return redirect("/FAULTS/{}/{}".format(request.form['make'],
