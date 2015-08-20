@@ -162,14 +162,14 @@ def analyse_level2(mylevel1, dictionary):
     return level2_dict
 
 ################### computational app routing #################################
-@app.route('/make', methods=['GET', 'POST'])
+@app.route('/model', methods=['GET', 'POST'])
 def getModel():
     make = request.json['make']
     models = list(data_dict_rates[make].keys())
     models = json.dumps(models)
     return models
 
-@app.route('/make/model', methods=['GET', 'POST'])
+@app.route('/year', methods=['GET', 'POST'])
 def getYear():
     make = request.json['make']
     model = request.json['model']
@@ -183,6 +183,11 @@ def getYear():
 def index():
     makes = list(data_dict_rates.keys())
     return render_template("index.html", make=makes)
+
+
+@app.route('/about')
+def about():
+    return render_template("about.html")
 
 @app.route('/', methods=['POST'])
 def navigate():

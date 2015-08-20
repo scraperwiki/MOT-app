@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% set title = 'About' %}
+
+{% block content %}
+
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <hr>
+
+        <div class="row">
+            <div class="col-sm-8">
+                <h2>About this Project</h2>
+                <p>This project was part of my MSc Data Science programme at Lancaster University. This website is actually just an interactive way of displaying the results of an extensive, targetted analysis of the UK MOT vehicle testing data set. It is aimed at providing information on the pass rates, top faults discovered at MOT test failures, and the actual detailed descriptions of these faults.</p>
+                <p>The project can be divided up into three main stages - data integration, analysis and presentation. The data collection was basically hours and hours of downloading, inspecting and concatenating of the data from the official UK MOT vehicle testing data website, part of the UK government's open data. THe three stages are explained in more detail below</p>
+                <p> Special thanks to Ian Hopkinson my project supervisor and Amit Chopra my academic supervisor. Many thanks to Steve, Peter and Dragon at ScraperWiki, who were always available and helped out when I ran into knotty technical challenges, and did lend me more than a few tips and tricks. And great thanks to Aidan, Aine and Francis at ScraperWiki for their unique style of leadership (leadership by friendliness). I had a great time and if given the opportunity, I'll do it over again.</p>
+                <p>
+                    <a class="btn btn-default btn-lg" href="https://blog.scraperwiki.com/?p=758223689&preview=1&_ppp=1c42663a9d">Learn More &raquo;</a>
+                </p>
+            </div>
+            <div class="col-sm-4">
+                <img src="{{ url_for('static', filename='motpiusimage.jpg') }}" alt="Pius">
+                <address>
+                    <abbr title="Email">E:</abbr> <a href="mailto:#">piusokoh@gmail.com</a>
+                </address>
+            </div>
+        </div>
+        <!-- /.row -->
+
+        <hr>
+
+        <div class="row">
+            <div class="col-sm-4">
+                <img class="img-circle img-responsive img-center" src="http://placehold.it/300x300" alt="">
+                <h2>Data Integration</h2>
+                <p>The first main step in this project was data integration. As the documentation for the data wasn't so clear, much of the ideas for the data integration came only after much playing around with the data, inspection and manipulation of the data using command line tools, and in some cases, loading small chunks up into databases and running SQL scripts on them (call it trial and error, if you like).</p>
+            </div>
+            <div class="col-sm-4">
+                <img class="img-circle img-responsive img-center" src="http://placehold.it/300x300" alt="">
+                <h2>Data Analysis</h2>
+                <p>kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk.</p>
+            </div>
+            <div class="col-sm-4">
+                <img class="img-circle img-responsive img-center" src="http://placehold.it/300x300" alt="">
+                <h2>Data Presentation</h2>
+                <p>llllllllllllllllllllllllllllllllllllllllllllllllllllllll.</p>
+            </div>
+        </div>
+    </div>
+        <!-- /.row -->
+
+
+{% endblock %}

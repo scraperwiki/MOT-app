@@ -32,7 +32,7 @@
         options = '<option>model</option>';
         var e = document.getElementById("make");
         makeText = e.options[e.selectedIndex].text;        
-        $.ajax('/make',{
+        $.ajax('/model',{
           type: 'POST',
           data: JSON.stringify({make: makeText}, null, '\t'),
           contentType: 'application/json;charset=UTF-8',
@@ -49,7 +49,7 @@
         options = '<option>choose year</option>';
         var e = document.getElementById("model");
         modelText = e.options[e.selectedIndex].text;        
-        $.ajax('/make/model',{
+        $.ajax('/year',{
           type: 'POST',
           data: JSON.stringify({make: makeText, model: modelText}, null, '\t'),
           contentType: 'application/json;charset=UTF-8',
