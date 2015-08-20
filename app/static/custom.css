@@ -163,6 +163,12 @@ table, th, td {
 	color:#2ECCFA;
 }
 
+.text-black
+{
+  color:black;
+  font-weight: 800;
+}
+
 .text-blue-big
 {
   color:#2ECCFA;
