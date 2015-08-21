@@ -213,6 +213,21 @@ html, body {
 }
 
 
+img.resize{
+   width:250px;
+   height:300px;
+   padding-bottom: 20px;
+   max-width:80%;
+   max-height:90%;
+}
+
+img.resize1{
+   width:150px;
+   height:150px;
+   max-width:80%;
+   max-height:90%;
+}
+
 /********************************************************************/
 /* Footer */
 

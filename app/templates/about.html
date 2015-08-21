@@ -12,15 +12,16 @@
         <div class="row">
             <div class="col-sm-8">
                 <h2>About this Project</h2>
-                <p>This project was part of my MSc Data Science programme at Lancaster University. This website is actually just an interactive way of displaying the results of an extensive, targetted analysis of the UK MOT vehicle testing data set. It is aimed at providing information on the pass rates, top faults discovered at MOT test failures, and the actual detailed descriptions of these faults.</p>
-                <p>The project can be divided up into three main stages - data integration, analysis and presentation. The data collection was basically hours and hours of downloading, inspecting and concatenating of the data from the official UK MOT vehicle testing data website, part of the UK government's open data. THe three stages are explained in more detail below</p>
+                <p>The raw data set used in this Data Science project was the UK MOT data set. This is part of the UK government's open data, and is accessible <a href="http://data.gov.uk/dataset/anonymised_mot_test/">here</a>. The purpose of the MOT test is to ensure that all vehicles over a prescribed age are checked at least once a year to see that they comply with key roadworthiness and environmental requirements as prescribed in the law. After each test, an entry is made detailing the car details, test outcome and the fault(s) detected. The vehicle testing data currently available on the government website spans 9 years, from 2005 to 2013. In this raw form, it doesn't tell us much.</p>
+                <p>This project was part of my MSc Data Science programme at Lancaster University. This website is actually just an interactive way of displaying the results of an extensive, targetted analysis of the UK MOT vehicle testing data set. It is aimed at providing information on the pass rates, top faults discovered at MOT test failures, and the actual detailed descriptions of these faults.</p>                
                 <p> Special thanks to Ian Hopkinson my project supervisor and Amit Chopra my academic supervisor. Many thanks to Steve, Peter and Dragon at ScraperWiki, who were always available and helped out when I ran into knotty technical challenges, and did lend me more than a few tips and tricks. And great thanks to Aidan, Aine and Francis at ScraperWiki for their unique style of leadership (leadership by friendliness). I had a great time and if given the opportunity, I'll do it over again.</p>
+                <p>The project can be divided up into three main stages - data integration, analysis and presentation. The data collection was basically hours and hours of downloading, inspecting and concatenating of the data from the official UK MOT vehicle testing data website, part of the UK government's open data. The three stages are explained in more detail below</p>
                 <p>
                     <a class="btn btn-default btn-lg" href="https://blog.scraperwiki.com/?p=758223689&preview=1&_ppp=1c42663a9d">Learn More &raquo;</a>
                 </p>
             </div>
             <div class="col-sm-4">
-                <img src="{{ url_for('static', filename='motpiusimage.jpg') }}" alt="Pius">
+                <img class="img-responsive resize" src="{{ url_for('static', filename='motpiusimage.jpg') }}" alt="Pius">
                 <address>
                     <abbr title="Email">E:</abbr> <a href="mailto:#">piusokoh@gmail.com</a>
                 </address>
@@ -32,19 +33,21 @@
 
         <div class="row">
             <div class="col-sm-4">
-                <img class="img-circle img-responsive img-center" src="http://placehold.it/300x300" alt="">
+                <img class="img-circle img-responsive img-center resize1" src="{{ url_for('static', filename='DataIntegration.jpg') }}" alt="">
                 <h2>Data Integration</h2>
                 <p>The first main step in this project was data integration. As the documentation for the data wasn't so clear, much of the ideas for the data integration came only after much playing around with the data, inspection and manipulation of the data using command line tools, and in some cases, loading small chunks up into databases and running SQL scripts on them (call it trial and error, if you like).</p>
+                <p>Once the structure of the data was clear and the general direction of the analysis was established, work began on the aggregating of the data for the 9 years (2005 to 2013 inclusive), and the resulting data was over 800 million rows in total. Due to storage constraints on local machines, a high-end AWS PostgreSQL server had to be provisioned to handle this.</p>
             </div>
             <div class="col-sm-4">
-                <img class="img-circle img-responsive img-center" src="http://placehold.it/300x300" alt="">
+                <img class="img-circle img-responsive img-center resize1" src="{{ url_for('static', filename='DataAnalysis.jpg') }}" alt="">
                 <h2>Data Analysis</h2>
-                <p>kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk.</p>
+                <p>This was the part of the project that actually answered the research questions. For example, we wanted to know the pass rates for the different models, so given that we had the entire test result data at hand, we could group by make, model, year, test outcome (pass or fail). But calculating the top faults wasn't as trivial. The information about the car make and models tested was in one table, while the information about the test items was in another, and the information about the parent faults and actual descriptions were in different other tables.</p>
+                <p>So we needed to get all the bits and pieces from each table into one table with all the fields of interest. Once this was successfully accomplished, we could carry out similar grouping, by make, model, year, different hierarchies of the faults, and actual fault descriptions.</p>
             </div>
             <div class="col-sm-4">
-                <img class="img-circle img-responsive img-center" src="http://placehold.it/300x300" alt="">
+                <img class="img-circle img-responsive img-center resize1" src="{{ url_for('static', filename='DataPresentation.png') }}" alt="">
                 <h2>Data Presentation</h2>
-                <p>llllllllllllllllllllllllllllllllllllllllllllllllllllllll.</p>
+                <p>So finally we had actual tables that could give us the information we needed! But how would we make this accessible to the public, especially to non-technical people who needed the information? That is the purpose this website serves. It uses the final output tables from the analysis stage as a data source, but in a slightly different way from how tradional websites do this. <a href="https://blog.scraperwiki.com/?p=758223689&preview=1&_ppp=1c42663a9d">Find out how it's different</a>.</p>
             </div>
         </div>
     </div>
