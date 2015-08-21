@@ -11,7 +11,7 @@ import operator
 import utilities
 import os
 
-DATA_DIR = "app\\dockermount"
+DATA_DIR = "dockermount"
 FAULTS = os.path.join(DATA_DIR, "WholeDataFaults.txt")
 RATES = os.path.join(DATA_DIR, "WholeDataRates.csv")
 
