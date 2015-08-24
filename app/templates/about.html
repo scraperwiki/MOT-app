@@ -34,20 +34,20 @@
         <div class="row">
             <div class="col-sm-4">
                 <img class="img-circle img-responsive img-center resize1" src="{{ url_for('static', filename='DataIntegration.jpg') }}" alt="">
-                <h2>Data Integration</h2>
-                <p>The first main step in this project was data integration. As the documentation for the data wasn't so clear, much of the ideas for the data integration came only after much playing around with the data, inspection and manipulation of the data using command line tools, and in some cases, loading small chunks up into databases and running SQL scripts on them (call it trial and error, if you like).</p>
-                <p>Once the structure of the data was clear and the general direction of the analysis was established, work began on the aggregating of the data for the 9 years (2005 to 2013 inclusive), and the resulting data was over 800 million rows in total. Due to storage constraints on local machines, a high-end AWS PostgreSQL server had to be provisioned to handle this.</p>
+                <h2>Data Infrastructure</h2>
+                <p>Data were collected from the MOT website, this was straightforward although time consuming due to the shear volume. The documentation was sufficient but given the size and complexity of the data set it took some experimentation with a range of data analysis tools in order to establish the most appropriate infrastructure to process the data.</p>
+                <p>Once the structure of the data was clear and the general direction of the analysis was established, work began on the aggregating of the data for the 9 years (2005 to 2013 inclusive), and the resulting data was over 800 million rows in total. The data were condensed using a high-end AWS PostgreSQL server instance to generate a summary dataset of 6 million rows which is used to power this website.</p>
             </div>
             <div class="col-sm-4">
                 <img class="img-circle img-responsive img-center resize1" src="{{ url_for('static', filename='DataAnalysis.jpg') }}" alt="">
                 <h2>Data Analysis</h2>
-                <p>This was the part of the project that actually answered the research questions. For example, we wanted to know the pass rates for the different models, so given that we had the entire test result data at hand, we could group by make, model, year, test outcome (pass or fail). But calculating the top faults wasn't as trivial. The information about the car make and models tested was in one table, while the information about the test items was in another, and the information about the parent faults and actual descriptions were in different other tables.</p>
-                <p>So we needed to get all the bits and pieces from each table into one table with all the fields of interest. Once this was successfully accomplished, we could carry out similar grouping, by make, model, year, different hierarchies of the faults, and actual fault descriptions.</p>
+                <p>This was the part of the project where we explored the data set. For example, we wanted to know the pass rate for each model. To do this we grouped the data by make, model, year, and test outcome (pass or fail). Calculating the most common faults was not trivial. The information about the car makes and models was in one table, the test failure items was in another, and the information about the hierarchy of faults used in the MOT was in a further table.</p>
+                <p>We needed to collate the data in each table into one table with all the fields of interest, this simplified analysis and enabled us to concentrate on data presentation.</p>
             </div>
             <div class="col-sm-4">
                 <img class="img-circle img-responsive img-center resize1" src="{{ url_for('static', filename='DataPresentation.png') }}" alt="">
                 <h2>Data Presentation</h2>
-                <p>So finally we had actual tables that could give us the information we needed! But how would we make this accessible to the public, especially to non-technical people who needed the information? That is the purpose this website serves. It uses the final output tables from the analysis stage as a data source, but in a slightly different way from how tradional websites do this. <a href="https://blog.scraperwiki.com/?p=758223689&preview=1&_ppp=1c42663a9d">Find out how it's different</a>.</p>
+                <p>We wanted to make the data available in a way that was easy and accessible for non-technical users. We came up with this website, which presents users with a simple form to select car make, model and year before showing them data on failure rates and failure types for the selected vehicles. You can find out more about how to use the website and how it is built in <a href="https://blog.scraperwiki.com/2015/08/which-car-should-i-not-buy-find-out-with-the-scraperwiki-mot-website/">this blog post</a>.</p>
             </div>
         </div>
     </div>
