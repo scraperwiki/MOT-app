@@ -9,6 +9,7 @@ import json
 from collections import namedtuple, OrderedDict
 import operator
 import utilities
+import copy
 import os
 
 DATA_DIR = "/dockermount"
