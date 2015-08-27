@@ -79,6 +79,54 @@ def create_make_count():
     print(sorted_x)
     return make_dict
 
+def create_pass_by_volume():
+    top_list = []
+    i = 0
+    data_dict_rates_copy1 = copy.deepcopy(data_dict_rates)
+
+    while i < 11:
+        highest_count = 0
+        top_make = ''
+        top_model = ''
+        total_count = 0
+        for make, model_years in data_dict_rates_copy1.items():
+                for model, years_passfail in model_years.items():
+                    for year, passfail in years_passfail.items():
+                        total_count = passfail.get('P', 0) + passfail.get('F', 0)
+                        #print('total_count = '+repr(total_count))
+                        if total_count > highest_count:
+                            top_make = make
+                            top_model = model
+                            highest_count = total_count                       
+        top_list.append((top_make, top_model))
+        data_dict_rates_copy1[top_make].pop(top_model)
+        i = i + 1
+    return top_list
+
+def create_pass_by_yearvolume(given_year):
+    top_list = []
+    i = 0
+    data_dict_rates_copy = copy.deepcopy(data_dict_rates)
+
+    while i < 11:
+        highest_count = 0
+        top_make = ''
+        top_model = ''
+        for make, model_years in data_dict_rates_copy.items():
+                for model, years_passfail in model_years.items():
+                    for year, passfail in years_passfail.items():
+                        if year == given_year:
+                            total_count = passfail.get('P', 0) + passfail.get('F', 0)
+                            if total_count > highest_count:
+                                top_make = make
+                                top_model = model
+                                highest_count = total_count
+                        
+        top_list.append((top_make, top_model))
+        data_dict_rates_copy[top_make].pop(top_model)
+        i = i + 1
+    return top_list
+
 ######################### pass rate functions ##################################
 def select_make_model_rate(make, model, year=None):
     if year is None:
@@ -222,15 +270,30 @@ def navigate():
 def pass_vehicle_allyears(make, model):
     passes, fails, rate = calculate_pass_rate_all(
         select_make_model_rate(make, model))
+
+    top_list = create_pass_by_volume()
+    top_dict = {}
+    for (carmake, carmodel) in top_list:
+        my_tuple = calculate_pass_rate_all(select_make_model_rate(carmake, 
+            carmodel))
+        top_dict[(carmake, carmodel)] = my_tuple
+
     return render_template("passrate.html", make=make, model=model,
-        count_fail=fails, count_pass=passes, rate=rate)
+        count_fail=fails, count_pass=passes, rate=rate, results=top_dict)
 
 @app.route('/PASS/<make>/<model>/<year>')
 def pass_vehicle_byyear(make, model, year):
     passes, fails, rate = calculate_pass_rate_year(
         select_make_model_rate(make, model, year))
+
+    top_list = create_pass_by_yearvolume(year)
+    top_dict = {}
+    for (carmake, carmodel) in top_list:
+        my_tuple = calculate_pass_rate_year(select_make_model_rate(carmake, 
+            carmodel, year))
+        top_dict[(carmake, carmodel)] = my_tuple
     return render_template("passrateyear.html", make=make, model=model,
-        year=year, count_fail=fails, count_pass=passes, rate=rate)
+        year=year, count_fail=fails, count_pass=passes, rate=rate, results=top_dict)
 
 ######################### faults navigations #############################
 ############################### level 1 ##################################

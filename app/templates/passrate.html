@@ -7,10 +7,45 @@
 	<!--Test
 	<p id="demo">Test</p>
 	-->
+	<div class="container">
 	<h3 class="header spacing">Pass Rate for <span class="text-black">{{ make }} {{ model }}</span> is:</h3>
 	<h3 class="header spacing"><span class="text-black">{{ rate }}%</span></h3>
 	<h3 class="header spacing"><span class="text-black">{{ count_pass}}</span> passes out of <span class="text-black">{{ count_pass+count_fail }}</span> tests</h3>
+	<h3 class="header spacing">How this compares to the most popular models:</h3>
+	<div class="row">
+		<div>
+			<table class="table table-striped">
+				
+				<tr class="text-blue-big">
+				    <th class="header">Vehicle</th>
+				    <th class="header"># Passes</th>
+				    <th class="header">out of</th>	
+				    <th class="header">%</th>				    	
+			    </tr>
+				
+				
+				{% for car, data in results.items() %}
+					<tr>
+						<td>				
+							<b>{{ car[0] + ' ' + car[1] }}</b>						
+						</td>
+						<td class="value-cell">
+						{{ data[0] }}
+						</td>
+						<td class="value-cell">
+						{{ data[0] + data[1] }}
+						</td>
+						<td class="value-cell">
+						{{ data[2] }}%
+						</td>						
+					</tr>			
+				{% endfor %}
+			</table>
+		</div>
+	</div>
 	<h3 class="header spacing"><a href="/">Check pass rate for other models</a></h3>
+
+	</div>
 
 			
 
