@@ -7,6 +7,9 @@
 	-->
 <div class="container">
 	<h3 class="header spacing">Number of <span class="text-black">{{ make }} {{ model }}</span> with <span class="text-black">{{ level1 }}</span> issues: <span class="text-black">{{ total }}</span></h3>
+	{% if year in ['2011', '2012', '2013'] %}
+        <h3 class="alert alert-warning">Underlying data available to 2013. For the selected year, only a limited number of vehicles were tested.</h3>
+    {% endif %}
 	<h3 class="header spacing">Fault Breakdown:</h3>
 	
 	<table class="table table-striped">

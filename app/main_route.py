@@ -12,7 +12,7 @@ import utilities
 import copy
 import os
 
-DATA_DIR = "/dockermount"
+DATA_DIR = "dockermount"
 FAULTS = os.path.join(DATA_DIR, "WholeDataFaults.txt")
 RATES = os.path.join(DATA_DIR, "WholeDataRates.csv")
 
