@@ -278,9 +278,9 @@ def pass_vehicle_allyears(make, model):
         my_tuple = calculate_pass_rate_all(select_make_model_rate(carmake, 
             carmodel))
         top_dict[(carmake, carmodel)] = my_tuple
-
+    top_dict_sorted = OrderedDict(sorted(top_dict.items(), key= lambda x: x[1][2],reverse=True))
     return render_template("passrate.html", make=make, model=model,
-        count_fail=fails, count_pass=passes, rate=rate, results=top_dict)
+        count_fail=fails, count_pass=passes, rate=rate, results=top_dict_sorted)
 
 @app.route('/PASS/<make>/<model>/<year>')
 def pass_vehicle_byyear(make, model, year):
@@ -293,8 +293,9 @@ def pass_vehicle_byyear(make, model, year):
         my_tuple = calculate_pass_rate_year(select_make_model_rate(carmake, 
             carmodel, year))
         top_dict[(carmake, carmodel)] = my_tuple
+    top_dict_sorted = OrderedDict(sorted(top_dict.items(), key= lambda x: x[1][2],reverse=True))
     return render_template("passrateyear.html", make=make, model=model,
-        year=year, count_fail=fails, count_pass=passes, rate=rate, results=top_dict)
+        year=year, count_fail=fails, count_pass=passes, rate=rate, results=top_dict_sorted)
 
 ######################### faults navigations #############################
 ############################### level 1 ##################################
